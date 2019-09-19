@@ -6,6 +6,7 @@
 package trabalho_pos.tp.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,11 +76,16 @@ public class ClienteDao {
 
     }
     
-    public void update(Connection con, String nome, String sobrenome) throws SQLException{
-        PreparedStatement stmt = con.prepareStatement("update cliente set (nome, sobrenome) where nome = :nome and sobrenome :sobrenome");
-        stmt.setString(1, nome);
-        stmt.setString(2, sobrenome);
-        stmt.executeUpdate();
+    public void atualiza(Cliente cliente) throws SQLException{
+           PreparedStatement stmtAtualiza = this.connection.prepareStatement("update cliente set cpf=?, nome=?, sobrenome=?  WHERE id_cliente=?;");
+        try {
+            stmtAtualiza.setString(1, cliente.getCpf());
+            stmtAtualiza.setString(2, cliente.getNome());
+            stmtAtualiza.setString(3, cliente.getSobrenome());            
+            stmtAtualiza.executeUpdate();
+        } finally{
+            stmtAtualiza.close();
+        }     
     }  
     
     public void delete(Cliente cliente) throws SQLException{

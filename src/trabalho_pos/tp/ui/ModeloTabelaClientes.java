@@ -55,11 +55,9 @@ public class ModeloTabelaClientes extends AbstractTableModel{
         Cliente customer = lista.get(rowIndex);
         switch (columnIndex) {
             case 0: return customer.getId();//if column 0 (code)
-            case 1: return customer.getCpf();//if column 2 (birthday)
-            case 2: return customer.getNome();//if column 1 (name)
-            case 3: return customer.getSobrenome();//if column 2 (birthday)
- 
-       
+            case 1: return customer.getCpf();//if column 1 (cpf)
+            case 2: return customer.getNome();//if column 2 (name)
+            case 3: return customer.getSobrenome();//if column 3 (sobrenome)
             default : return null;
         }
     }
