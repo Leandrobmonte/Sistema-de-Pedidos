@@ -79,6 +79,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         jLabel1.setText("Cadastro de Cliente");
 
         tabela.setModel(modeloTabela);
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -316,18 +321,20 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             modeloTabela.fireTableRowsUpdated(linhaClicada, linhaClicada);
             
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_atualizarActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        //Pega a linha clicada
+        linhaClicada = tabela.rowAtPoint(evt.getPoint());
+        //Pega o contato da linha clidada
+        Cliente cliente = modeloTabela.getCliente(linhaClicada);
+        //Seta os dados nos componentes
+        cpf.setText(cliente.getCpf());
+        nome.setText(cliente.getNome());        
+        sobrenome.setText(cliente.getSobrenome());
+        
+        
+    }//GEN-LAST:event_tabelaMouseClicked
 
 
     

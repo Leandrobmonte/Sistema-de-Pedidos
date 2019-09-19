@@ -81,7 +81,8 @@ public class ClienteDao {
         try {
             stmtAtualiza.setString(1, cliente.getCpf());
             stmtAtualiza.setString(2, cliente.getNome());
-            stmtAtualiza.setString(3, cliente.getSobrenome());            
+            stmtAtualiza.setString(3, cliente.getSobrenome());
+            stmtAtualiza.setLong(4, cliente.getId());
             stmtAtualiza.executeUpdate();
         } finally{
             stmtAtualiza.close();
