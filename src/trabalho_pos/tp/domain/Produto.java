@@ -6,22 +6,22 @@
 package trabalho_pos.tp.domain;
 
 public class Produto{
-    private int id;
+    private Long id;
     private String descricao;  
     
     Produto() {
     }
     
-    public Produto(int id, String descricao) {
+    public Produto(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

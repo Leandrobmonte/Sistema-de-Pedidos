@@ -31,7 +31,7 @@ public class ClienteDao {
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from cliente");
         try {
             rs = stmtLista.executeQuery();
-            List<Cliente> contatos = new ArrayList();
+            List<Cliente> cliente = new ArrayList();
             while (rs.next()) {
                 // criando o objeto Contato
                 //Contato contato = new Contato();
@@ -41,10 +41,10 @@ public class ClienteDao {
                 String cpf = rs.getString("cpf");
                 
                 // adicionando o objeto à lista
-                contatos.add(new Cliente(id,cpf,nome,sobrenome));
+                cliente.add(new Cliente(id,cpf,nome,sobrenome));
             }
             
-            return contatos;
+            return cliente;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally{

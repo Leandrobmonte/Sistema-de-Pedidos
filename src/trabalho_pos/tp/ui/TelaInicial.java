@@ -35,8 +35,8 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btnCadastrarCliente = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        btnCadastrarPedido = new javax.swing.JLabel();
+        btnCadastrarProduto = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         sair = new javax.swing.JMenu();
@@ -58,11 +58,21 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/compras_P-1.png"))); // NOI18N
-        jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/compras_P-1.png"))); // NOI18N
+        btnCadastrarPedido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarPedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCadastrarPedidoMouseClicked(evt);
+            }
+        });
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/adicionar_PP-1.png"))); // NOI18N
-        jLabel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/adicionar_PP-1.png"))); // NOI18N
+        btnCadastrarProduto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCadastrarProdutoMouseClicked(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/lista_pedidos_P-1.png"))); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -88,10 +98,10 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCadastrarCliente)
-                            .addComponent(jLabel4))
+                            .addComponent(btnCadastrarProduto))
                         .addGap(126, 126, 126)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
+                            .addComponent(btnCadastrarPedido)
                             .addComponent(jLabel5))))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
@@ -101,12 +111,12 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(btnCadastrarPedido)
                     .addComponent(btnCadastrarCliente))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel4))
+                    .addComponent(btnCadastrarProduto))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -123,6 +133,18 @@ public class TelaInicial extends javax.swing.JFrame {
     private void sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sairMouseClicked
         System.exit(0);   
     }//GEN-LAST:event_sairMouseClicked
+
+    private void btnCadastrarProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarProdutoMouseClicked
+           TelaCadastroProduto tela = new TelaCadastroProduto();
+       tela.setVisible(true);
+       this.setVisible(false);
+    }//GEN-LAST:event_btnCadastrarProdutoMouseClicked
+
+    private void btnCadastrarPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarPedidoMouseClicked
+       TelaCadastroPedido tela = new TelaCadastroPedido();
+       tela.setVisible(true);
+       this.setVisible(false);
+    }//GEN-LAST:event_btnCadastrarPedidoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -161,9 +183,9 @@ public class TelaInicial extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCadastrarCliente;
+    private javax.swing.JLabel btnCadastrarPedido;
+    private javax.swing.JLabel btnCadastrarProduto;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu sair;
