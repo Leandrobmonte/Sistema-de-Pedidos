@@ -16,7 +16,11 @@ import java.util.logging.Logger;
  * @author leand
  */
 public class ConnectionFactory {
-
+    /**
+     * Author Kissy Melo
+     @return conexao com o banco
+     
+     */
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false","root","1234");//"rrw@and14"

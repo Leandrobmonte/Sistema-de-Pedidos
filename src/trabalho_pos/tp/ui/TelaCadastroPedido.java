@@ -6,6 +6,7 @@
 package trabalho_pos.tp.ui;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import trabalho_pos.tp.dao.ProdutoDao;
@@ -45,11 +46,11 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         voltar = new javax.swing.JButton();
         btnListarProduto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        produtosSelecionados = new javax.swing.JTable();
+        btnSalvarPeddo = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnIncluirProduto = new javax.swing.JButton();
         lblNomeCliente = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -66,6 +67,12 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("CPF");
+
+        cpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cpfKeyPressed(evt);
+            }
+        });
 
         sair.setText("Sair");
         sair.addActionListener(new java.awt.event.ActionListener() {
@@ -88,9 +95,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(produtosSelecionados);
 
-        jButton2.setText("Salvar Pedido");
+        btnSalvarPeddo.setText("Salvar Pedido");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 0));
@@ -100,10 +107,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 102, 255));
         jLabel4.setText("Produtos Selecionados");
 
-        jButton3.setText("Incluir Produto");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnIncluirProduto.setText("Incluir Produto");
+        btnIncluirProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnIncluirProdutoActionPerformed(evt);
             }
         });
 
@@ -138,9 +145,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnIncluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnSalvarPeddo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,8 +200,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sair)
                     .addComponent(voltar)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(btnIncluirProduto)
+                    .addComponent(btnSalvarPeddo))
                 .addGap(41, 41, 41))
         );
 
@@ -215,9 +222,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_voltarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirProdutoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnIncluirProdutoActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
           
@@ -232,6 +239,12 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnListarProdutoActionPerformed
+
+    private void cpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) { 
+            JOptionPane.showMessageDialog(null, "Enter Pressionado");
+        } // faz qualquer coisa que você quiser jButton1.doClick(); 
+    }//GEN-LAST:event_cpfKeyPressed
 
     /**
      * @param args the command line arguments
@@ -268,10 +281,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnIncluirProduto;
     private javax.swing.JButton btnListarProduto;
+    private javax.swing.JButton btnSalvarPeddo;
     private javax.swing.JTextField cpf;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -281,9 +294,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JTable produtosDisponiveis;
+    private javax.swing.JTable produtosSelecionados;
     private javax.swing.JButton sair;
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
