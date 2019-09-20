@@ -101,6 +101,11 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         });
 
         voltar.setText("Voltar");
+        voltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarActionPerformed(evt);
+            }
+        });
 
         sair.setText("Sair");
         sair.addActionListener(new java.awt.event.ActionListener() {
@@ -253,6 +258,12 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de produto.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_excluirActionPerformed
+
+    private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
+       TelaInicial tela = new TelaInicial();
+       tela.setVisible(true);
+       this.setVisible(false);
+    }//GEN-LAST:event_voltarActionPerformed
 
     /**
      * @param args the command line arguments
