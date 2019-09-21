@@ -8,11 +8,13 @@ package trabalho_pos.tp.ui;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import trabalho_pos.tp.dao.ClienteDao;
+import trabalho_pos.tp.dao.ItemDoPedidoDao;
 import trabalho_pos.tp.dao.ProdutoDao;
 import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.ItemDoPedido;
@@ -30,6 +32,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     
     public TelaCadastroPedido() {
         modeloTabelaProduto = new ModeloTabelaProduto();
+        modeloTabelaItemPedido = new ModeloTabelaItemPedido();
         initComponents();
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.lightGray);
@@ -241,25 +244,41 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarActionPerformed
 
     private void btnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirProdutoActionPerformed
+        System.out.println("chegando aqui");
+        
+        int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
+        List<ItemDoPedido> itensPedidos = new ArrayList();
+         for (int i = 0; i < linhasSelecionadas.length; i++) {                
+                Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
+                ItemDoPedido itemva = new ItemDoPedido(produto, 1);
+                itensPedidos.add(itemva);
+            }
+        // modeloTabelaItemPedido.setListaItemDoPedido(itensPedidos);
+        for(ItemDoPedido it:itensPedidos){
+            modeloTabelaItemPedido.adicionaItemDoPedido(it);
+        }
+        
         
         if(linhaClicada!=-1){
-            Produto produto = modeloTabelaProduto.getProduto(linhaClicada);            
+            System.out.println("entra aqui");
+            Produto produto = modeloTabelaProduto.getProduto(linhaClicada); 
+            System.out.println("entra aqui2");
+
             Long idProduto = produto.getId();
             String descricao = produto.getDescricao(); 
-            
-            ItemDoPedido item = new ItemDoPedido(produto, null);
-            
-            
-//            ItemDoPedido itemPedido = modeloTabelaItemPedido.
-//            ClienteDao dao = null;
-            try {
-//                dao = new ClienteDao();
-//                dao.atualiza(cliente);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-            //Atualiza tabela
-            modeloTabelaItemPedido.fireTableRowsUpdated(linhaClicada, linhaClicada);
+            ItemDoPedido itemDoPedido = new ItemDoPedido(produto, 1);
+            //modeloTabelaItemPedido.setListaItemDoPedido(itemDoPedido);
+//
+//            ItemDoPedido item = new ItemDoPedido(produto, 1);
+//            ItemDoPedidoDao dao;
+//            try {
+//                dao = new ItemDoPedidoDao();
+//                dao.insert(produto, item);
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+//            }
+//            //Atualiza tabela
+//            modeloTabelaItemPedido.fireTableRowsUpdated(linhaClicada, linhaClicada);
             
         }
     }//GEN-LAST:event_btnIncluirProdutoActionPerformed

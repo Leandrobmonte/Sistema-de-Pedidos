@@ -17,9 +17,11 @@ import trabalho_pos.tp.domain.Produto;
  */
 class ModeloTabelaItemPedido extends AbstractTableModel{
     
-     private String[] colunas = new String[]{"Descricao","Quantidade"};
+     private String[] colunas = new String[]{"Produto","Quantidade"};
 
     private List<ItemDoPedido> lista = new ArrayList();
+    private List<Produto> listaProduto = new ArrayList();
+
     
     public ModeloTabelaItemPedido(List<ItemDoPedido> listaDeItens){
         this.lista=listaDeItens;
@@ -49,22 +51,20 @@ class ModeloTabelaItemPedido extends AbstractTableModel{
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Produto produto = new Produto();
         ItemDoPedido itensDoPedido = lista.get(rowIndex);
         switch (columnIndex) {
    
-            case 0: return produto.getDescricao();
+            case 0: return itensDoPedido.getProduto().getDescricao();
             case 1: return itensDoPedido.getQuantidade();//
             default : return null;
         }
     }
 
     public void setValueAt(Object value, int row, int col) {
-        Produto produto = new Produto();
         ItemDoPedido itemPedido = lista.get(row);
         switch (col) {
             case 0:
-                produto.setDescricao((String) value); //if column 0 (code)
+                itemPedido.getProduto().setDescricao((String) value); //if column 0 (code)
                 break;
             case 1:
                  itemPedido.setQuantidade((int) value);
@@ -75,21 +75,22 @@ class ModeloTabelaItemPedido extends AbstractTableModel{
         this.fireTableCellUpdated(row, col);
     }
 
-    public boolean removeProduto(ItemDoPedido item) {
+    public boolean removeItemDoPedido(ItemDoPedido item) {
         int linha = this.lista.indexOf(item);
         boolean result = this.lista.remove(item);
         this.fireTableRowsDeleted(linha,linha);//update JTable
         return result;
     }
 
-    public void adicionaProduto(ItemDoPedido item) {
+    public void adicionaItemDoPedido(ItemDoPedido item) {
         this.lista.add(item);
         //this.fireTableDataChanged();
         this.fireTableRowsInserted(lista.size()-1,lista.size()-1);//update JTable
-    }
+    }    
+   
+    public void setListaItemDoPedido(List<ItemDoPedido> item) {
 
-    public void setListaProduto(List<ItemDoPedido> item) {
-        this.lista = item;
+        this.lista =  item;
         this.fireTableDataChanged();
     }
 
