@@ -5,10 +5,23 @@
  */
 package trabalho_pos.tp.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author leand
  */
 public class PedidoDao {
+    
+    private Connection connection;
+    private PreparedStatement stmtAdiciona;
+    
+    public PedidoDao() throws SQLException {
+        this.connection = ConnectionFactory.getConnection();
+        this.stmtAdiciona = connection.prepareStatement("insert into pedido (data, id_cliente) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+    }
     
 }
