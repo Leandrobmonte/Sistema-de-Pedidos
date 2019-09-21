@@ -37,7 +37,7 @@ public class TelaInicial extends javax.swing.JFrame {
         btnCadastrarCliente = new javax.swing.JLabel();
         btnCadastrarPedido = new javax.swing.JLabel();
         btnCadastrarProduto = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        btnListarPedidos = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         sair = new javax.swing.JMenu();
 
@@ -74,8 +74,13 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/lista_pedidos_P-1.png"))); // NOI18N
-        jLabel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnListarPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/lista_pedidos_P-1.png"))); // NOI18N
+        btnListarPedidos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnListarPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnListarPedidosMouseClicked(evt);
+            }
+        });
 
         sair.setText("Sair");
         sair.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -102,7 +107,7 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addGap(126, 126, 126)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnCadastrarPedido)
-                            .addComponent(jLabel5))))
+                            .addComponent(btnListarPedidos))))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,7 +120,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addComponent(btnCadastrarCliente))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(btnListarPedidos)
                     .addComponent(btnCadastrarProduto))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -145,6 +150,12 @@ public class TelaInicial extends javax.swing.JFrame {
        tela.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_btnCadastrarPedidoMouseClicked
+
+    private void btnListarPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListarPedidosMouseClicked
+        TelaListaPedido tela = new TelaListaPedido();
+        tela.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnListarPedidosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -185,8 +196,8 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel btnCadastrarCliente;
     private javax.swing.JLabel btnCadastrarPedido;
     private javax.swing.JLabel btnCadastrarProduto;
+    private javax.swing.JLabel btnListarPedidos;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu sair;
     // End of variables declaration//GEN-END:variables
