@@ -32,7 +32,7 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        tituloImagem = new javax.swing.JLabel();
         btnCadastrarCliente = new javax.swing.JLabel();
         btnCadastrarPedido = new javax.swing.JLabel();
         btnCadastrarProduto = new javax.swing.JLabel();
@@ -49,10 +49,10 @@ public class TelaInicial extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 102));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 102));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/titulo_6.png"))); // NOI18N
+        tituloImagem.setBackground(new java.awt.Color(0, 0, 102));
+        tituloImagem.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        tituloImagem.setForeground(new java.awt.Color(0, 0, 102));
+        tituloImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/titulo_6.png"))); // NOI18N
 
         btnCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/btnUsuario_final.png"))); // NOI18N
         btnCadastrarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -150,7 +150,7 @@ public class TelaInicial extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tituloImagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,10 +175,10 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(tituloImagem)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
+                                .addGap(40, 40, 40)
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
@@ -192,20 +192,15 @@ public class TelaInicial extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCadastrarCliente))))
                     .addComponent(btnCadastrarPedido))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addComponent(btnCadastrarProduto)
-                        .addGap(105, 105, 105))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnListarPedidos)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnListarPedidos)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(1, 1, 1)
+                        .addComponent(btnCadastrarProduto)))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         pack();
@@ -308,7 +303,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel btnCadastrarPedido;
     private javax.swing.JLabel btnCadastrarProduto;
     private javax.swing.JLabel btnListarPedidos;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -317,5 +311,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu sair;
+    private javax.swing.JLabel tituloImagem;
     // End of variables declaration//GEN-END:variables
 }
