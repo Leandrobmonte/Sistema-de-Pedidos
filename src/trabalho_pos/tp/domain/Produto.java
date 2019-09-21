@@ -9,7 +9,7 @@ public class Produto{
     private Long id;
     private String descricao;  
     
-    Produto() {
+    public Produto() {
     }
     
     public Produto(Long id, String descricao) {

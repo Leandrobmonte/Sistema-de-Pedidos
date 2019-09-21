@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Produto;
 
 /**
@@ -104,5 +105,6 @@ class ModeloTabelaProduto extends AbstractTableModel{
     public Produto getProduto(int linha){
         return lista.get(linha);
     }
-    
+
+   
 }
