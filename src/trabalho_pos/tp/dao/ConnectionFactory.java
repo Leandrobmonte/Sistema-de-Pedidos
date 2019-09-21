@@ -23,7 +23,8 @@ public class ConnectionFactory {
      */
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false","root","1234");//"rrw@and14"
+            return DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false","root","root");
+                   
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
