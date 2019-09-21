@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class ConnectionFactory {
     /**
      * Author Kissy Melo
-     @return conexao com o banco
+     @return conexao com o banco de dados
      
      */
     public static Connection getConnection() {
