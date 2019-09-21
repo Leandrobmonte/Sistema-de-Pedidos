@@ -61,8 +61,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         btnSalvarPeddo = new javax.swing.JButton();
         btnIncluirProduto = new javax.swing.JButton();
         lblNomeCliente = new javax.swing.JLabel();
-        quantidade = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        quantidadeItem = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -131,13 +131,14 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         lblNomeCliente.setText("nome do cliente");
         lblNomeCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        quantidade.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("Quantidade");
+
+        quantidadeItem.setText("1");
+        quantidadeItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantidadeActionPerformed(evt);
+                quantidadeItemActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("Quantidade");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -156,7 +157,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -181,10 +182,11 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(btnIncluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(quantidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(jLabel5)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(quantidadeItem))))
                         .addGap(23, 23, 23)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -215,11 +217,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(jLabel5)
+                                .addGap(11, 11, 11)
+                                .addComponent(quantidadeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnIncluirProduto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnIncluirProduto))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,9 +261,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         //verfica quais itens estao selecionados na tabela produtosDisponiveis       
         for (int i = 0; i < linhasSelecionadas.length; i++) { 
                 ItemDoPedido itemquanti = new ItemDoPedido();
-                Integer quantidadeAdicionada = itemquanti.setQuantidade(quantidadeItem.getText());
+                String quant = quantidadeItem.getText();
+                Integer quantidade = Integer.parseInt(quant);
                 Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
-                ItemDoPedido itemva = new ItemDoPedido(produto, quantidadeAdicionada);
+                ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
                 itensPedidos.add(itemva);
             } 
          //adiciona na tabela itensSelecioandos
@@ -319,6 +321,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Pedido Salvo com sucesso!"); //mensagem para depois de salvar o pedido
     }//GEN-LAST:event_btnSalvarPeddoMouseClicked
 
+    private void quantidadeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantidadeItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantidadeItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,7 +375,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JTable produtosDisponiveis;
     private javax.swing.JTable produtosSelecionados;
-    private javax.swing.JTextField quantidade;
+    private javax.swing.JTextField quantidadeItem;
     private javax.swing.JButton sair;
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
