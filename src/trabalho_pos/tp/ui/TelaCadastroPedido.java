@@ -62,6 +62,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnIncluirProduto = new javax.swing.JButton();
         lblNomeCliente = new javax.swing.JLabel();
+        quantidadeItem = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -138,6 +140,15 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         lblNomeCliente.setText("nome do cliente");
         lblNomeCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        quantidadeItem.setText("1");
+        quantidadeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quantidadeItemActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Quantidade");
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -169,14 +180,20 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                                 .addComponent(btnIncluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
                                 .addComponent(btnSalvarPeddo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(quantidadeItem))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel4)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,8 +232,15 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(btnListarProduto))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(quantidadeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sair)
@@ -248,39 +272,18 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         
         int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
         List<ItemDoPedido> itensPedidos = new ArrayList();
-         for (int i = 0; i < linhasSelecionadas.length; i++) {                
-                Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
-                ItemDoPedido itemva = new ItemDoPedido(produto, 1);
-                itensPedidos.add(itemva);
+         for (int i = 0; i < linhasSelecionadas.length; i++) { 
+              String quant = quantidadeItem.getText(); 
+              Integer quantidade = Integer.parseInt(quant); 
+              Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
+              ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
+              itensPedidos.add(itemva);
             }
         // modeloTabelaItemPedido.setListaItemDoPedido(itensPedidos);
         for(ItemDoPedido it:itensPedidos){
             modeloTabelaItemPedido.adicionaItemDoPedido(it);
         }
         
-        
-        if(linhaClicada!=-1){
-            System.out.println("entra aqui");
-            Produto produto = modeloTabelaProduto.getProduto(linhaClicada); 
-            System.out.println("entra aqui2");
-
-            Long idProduto = produto.getId();
-            String descricao = produto.getDescricao(); 
-            ItemDoPedido itemDoPedido = new ItemDoPedido(produto, 1);
-            //modeloTabelaItemPedido.setListaItemDoPedido(itemDoPedido);
-//
-//            ItemDoPedido item = new ItemDoPedido(produto, 1);
-//            ItemDoPedidoDao dao;
-//            try {
-//                dao = new ItemDoPedidoDao();
-//                dao.insert(produto, item);
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-//            }
-//            //Atualiza tabela
-//            modeloTabelaItemPedido.fireTableRowsUpdated(linhaClicada, linhaClicada);
-            
-        }
     }//GEN-LAST:event_btnIncluirProdutoActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
@@ -323,6 +326,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private void btnSalvarPeddoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarPeddoMouseClicked
         JOptionPane.showMessageDialog(null, "Pedido Salvo com sucesso!"); //mensagem para depois de salvar o pedido
     }//GEN-LAST:event_btnSalvarPeddoMouseClicked
+
+    private void quantidadeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantidadeItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantidadeItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -367,6 +374,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -375,6 +383,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JTable produtosDisponiveis;
     private javax.swing.JTable produtosSelecionados;
+    private javax.swing.JTextField quantidadeItem;
     private javax.swing.JButton sair;
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
