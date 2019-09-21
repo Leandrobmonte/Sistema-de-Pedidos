@@ -198,6 +198,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="cpf">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cpfActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cpfKeyPressed"/>
       </Events>
     </Component>

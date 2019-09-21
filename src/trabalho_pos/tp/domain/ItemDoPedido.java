@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class ItemDoPedido {
-    
+    int id;
     Integer quantidade;
     Produto produto = new Produto();
 
@@ -17,9 +17,15 @@ public class ItemDoPedido {
         this.produto = produto;
         this.quantidade = quantidade;
     }
-    
-    
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Integer getQuantidade() {
         return quantidade;
     }

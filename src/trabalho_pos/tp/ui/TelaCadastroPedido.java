@@ -80,6 +80,11 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("CPF");
 
+        cpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfActionPerformed(evt);
+            }
+        });
         cpf.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cpfKeyPressed(evt);
@@ -268,8 +273,6 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarActionPerformed
 
     private void btnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirProdutoActionPerformed
-        System.out.println("chegando aqui");
-        
         int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
         List<ItemDoPedido> itensPedidos = new ArrayList();
          for (int i = 0; i < linhasSelecionadas.length; i++) { 
@@ -279,7 +282,6 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
               ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
               itensPedidos.add(itemva);
             }
-        // modeloTabelaItemPedido.setListaItemDoPedido(itensPedidos);
         for(ItemDoPedido it:itensPedidos){
             modeloTabelaItemPedido.adicionaItemDoPedido(it);
         }
@@ -296,8 +298,6 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
 
         }
-
-
     }//GEN-LAST:event_btnListarProdutoActionPerformed
 
     private void cpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfKeyPressed
@@ -320,7 +320,42 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_cpfKeyPressed
 
     private void btnSalvarPeddoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPeddoActionPerformed
-        // TODO add your handling code here:
+       Produto poduto = new Produto();
+       Cliente cliente = new Cliente();
+       List<ItemDoPedido> itensdoPedido = new ArrayList();
+       for (int i = 0; i < modeloTabelaItemPedido.getRowCount(); i++) {
+            itensdoPedido.add(modeloTabelaItemPedido.getItemDoPedido(i));
+        }
+       
+       try {
+            ItemDoPedidoDao daoItem = new ItemDoPedidoDao();
+            for(ItemDoPedido itempedido : itensdoPedido){                
+                daoItem.insert(itempedido);
+            }
+            ProdutoDao daoProduto = new ProdutoDao();
+            //cliente = cliente.getCpf()
+            
+      
+        
+       }catch(SQLException ex){
+           
+       }
+        for(ItemDoPedido itempedido : itensdoPedido){
+        
+        }
+//        String nome = this.nome.getText();
+//        String sobrenome = this.sobrenome.getText();
+//        String cpf = this.cpf.getText();
+//       
+//        Cliente cliente = new Cliente(null,cpf,nome,sobrenome);
+        
+//         try {
+//             ClienteDao dao = new ClienteDao();
+//             dao.insert(cliente);
+//             modeloTabela.adicionaCliente(cliente);
+//         } catch (SQLException ex) {
+//             JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+//         }
     }//GEN-LAST:event_btnSalvarPeddoActionPerformed
 
     private void btnSalvarPeddoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarPeddoMouseClicked
@@ -330,6 +365,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private void quantidadeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantidadeItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_quantidadeItemActionPerformed
+
+    private void cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfActionPerformed
+       
+    }//GEN-LAST:event_cpfActionPerformed
 
     /**
      * @param args the command line arguments
