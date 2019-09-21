@@ -135,7 +135,7 @@
           <Color blue="99" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/trabalho_pos/tp/imagens/TituloPedidosRealizados.png"/>
+          <Image iconType="3" name="/trabalho_pos/tp/imagens/TituloFinal-1.png"/>
         </Property>
       </Properties>
     </Component>

@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import trabalho_pos.tp.dao.ConnectionFactory;
+import trabalho_pos.tp.ui.TelaInicial;
 
 /**
  *
@@ -19,7 +20,8 @@ import trabalho_pos.tp.dao.ConnectionFactory;
 public class application {
 
     public static void main(String[] args) {
-       // Conexao conexaoDao = new Conexao();      
+        TelaInicial tela = new TelaInicial();
+        tela.setVisible(true);
     }
     
 }

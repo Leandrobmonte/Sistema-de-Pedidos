@@ -52,34 +52,34 @@ public class TelaInicial extends javax.swing.JFrame {
         tituloImagem.setBackground(new java.awt.Color(0, 0, 102));
         tituloImagem.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         tituloImagem.setForeground(new java.awt.Color(0, 0, 102));
-        tituloImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/titulo_6.png"))); // NOI18N
+        tituloImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/TituloFinal-1.png"))); // NOI18N
 
-        btnCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/btnUsuario_final.png"))); // NOI18N
-        btnCadastrarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/usuario_1.png"))); // NOI18N
+        btnCadastrarCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCadastrarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCadastrarClienteMouseClicked(evt);
             }
         });
 
-        btnCadastrarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/btnPedidos_final.png"))); // NOI18N
-        btnCadastrarPedido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/pedido_1.png"))); // NOI18N
+        btnCadastrarPedido.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCadastrarPedido.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCadastrarPedidoMouseClicked(evt);
             }
         });
 
-        btnCadastrarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/btnAdicionar_final.png"))); // NOI18N
-        btnCadastrarProduto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCadastrarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/produto_1.png"))); // NOI18N
+        btnCadastrarProduto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCadastrarProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCadastrarProdutoMouseClicked(evt);
             }
         });
 
-        btnListarPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/btnListar_final.png"))); // NOI18N
-        btnListarPedidos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnListarPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/pedidosRealizados_1.png"))); // NOI18N
+        btnListarPedidos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnListarPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnListarPedidosMouseClicked(evt);
@@ -150,9 +150,8 @@ public class TelaInicial extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tituloImagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -160,47 +159,47 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCadastrarCliente)
-                    .addComponent(btnCadastrarProduto))
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCadastrarPedido)
-                    .addComponent(btnListarPedidos))
-                .addGap(87, 87, 87))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCadastrarCliente)
+                        .addGap(64, 64, 64)
+                        .addComponent(btnCadastrarPedido))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCadastrarProduto)
+                        .addGap(64, 64, 64)
+                        .addComponent(btnListarPedidos)))
+                .addGap(81, 81, 81))
+            .addComponent(tituloImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(tituloImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tituloImagem)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6)
-                                .addGap(16, 16, 16)
-                                .addComponent(jLabel7))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCadastrarCliente))))
-                    .addComponent(btnCadastrarPedido))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnListarPedidos)
+                            .addComponent(btnCadastrarCliente)
+                            .addComponent(btnCadastrarPedido))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCadastrarProduto)
+                            .addComponent(btnListarPedidos)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(btnCadastrarProduto)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         pack();
