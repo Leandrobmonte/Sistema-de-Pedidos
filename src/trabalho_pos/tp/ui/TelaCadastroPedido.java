@@ -61,8 +61,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         btnSalvarPeddo = new javax.swing.JButton();
         btnIncluirProduto = new javax.swing.JButton();
         lblNomeCliente = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         quantidadeItem = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -131,14 +131,14 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         lblNomeCliente.setText("nome do cliente");
         lblNomeCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel5.setText("Quantidade");
-
         quantidadeItem.setText("1");
         quantidadeItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 quantidadeItemActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Quantidade");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -172,23 +172,28 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                                 .addGap(45, 45, 45)
                                 .addComponent(btnSalvarPeddo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(btnIncluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(quantidadeItem))))
-                        .addGap(23, 23, 23)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(quantidadeItem))))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(sair, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(173, 173, 173))
@@ -227,13 +232,30 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                                 .addGap(24, 24, 24)))
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sair)
-                            .addComponent(voltar))
-                        .addGap(34, 34, 34))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(lblNomeCliente))
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(btnListarProduto))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(quantidadeItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sair)
+                    .addComponent(voltar)
+                    .addComponent(btnIncluirProduto)
+                    .addComponent(btnSalvarPeddo))
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -257,27 +279,18 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         int count = 0;
         int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
         List<ItemDoPedido> itensPedidos = new ArrayList();
-        List<ItemDoPedido> itensAdicionados = new ArrayList();
-        //verfica quais itens estao selecionados na tabela produtosDisponiveis       
-        for (int i = 0; i < linhasSelecionadas.length; i++) { 
-                ItemDoPedido itemquanti = new ItemDoPedido();
-                String quant = quantidadeItem.getText();
-                Integer quantidade = Integer.parseInt(quant);
-                Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
-                ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
-                itensPedidos.add(itemva);
-            } 
-         //adiciona na tabela itensSelecioandos
-        for(ItemDoPedido itempedido:itensPedidos){              
-//            if(!modeloTabelaItemPedido.getItemDoPedido(modeloTabelaItemPedido.getRowCount()).equals(itempedido.getProduto().getId())){
-                
-                modeloTabelaItemPedido.adicionaItemDoPedido(itempedido);
-//            }else{
-//                itempedido.somarItens(itempedido.getQuantidade(), 1);
-//            }
+         for (int i = 0; i < linhasSelecionadas.length; i++) { 
+              String quant = quantidadeItem.getText(); 
+              Integer quantidade = Integer.parseInt(quant); 
+              Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
+              ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
+              itensPedidos.add(itemva);
+            }
+        // modeloTabelaItemPedido.setListaItemDoPedido(itensPedidos);
+        for(ItemDoPedido it:itensPedidos){
+            modeloTabelaItemPedido.adicionaItemDoPedido(it);
         }
- 
-     
+        
     }//GEN-LAST:event_btnIncluirProdutoActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
@@ -366,6 +379,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JTextField cpf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
