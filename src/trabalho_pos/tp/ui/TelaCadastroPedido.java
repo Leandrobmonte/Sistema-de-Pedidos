@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -244,43 +245,29 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarActionPerformed
 
     private void btnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirProdutoActionPerformed
-        System.out.println("chegando aqui");
-        
+        int count = 0;
         int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
         List<ItemDoPedido> itensPedidos = new ArrayList();
-         for (int i = 0; i < linhasSelecionadas.length; i++) {                
+        List<ItemDoPedido> itensAdicionados = new ArrayList();
+        //verfica quais itens estao selecionados na tabela produtosDisponiveis       
+        for (int i = 0; i < linhasSelecionadas.length; i++) { 
+                ItemDoPedido itemquanti = new ItemDoPedido();
+                Integer quantidadeAdicionada = itemquanti.setQuantidade(quantidadeItem.getText());
                 Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
-                ItemDoPedido itemva = new ItemDoPedido(produto, 1);
+                ItemDoPedido itemva = new ItemDoPedido(produto, quantidadeAdicionada);
                 itensPedidos.add(itemva);
-            }
-        // modeloTabelaItemPedido.setListaItemDoPedido(itensPedidos);
-        for(ItemDoPedido it:itensPedidos){
-            modeloTabelaItemPedido.adicionaItemDoPedido(it);
-        }
-        
-        
-        if(linhaClicada!=-1){
-            System.out.println("entra aqui");
-            Produto produto = modeloTabelaProduto.getProduto(linhaClicada); 
-            System.out.println("entra aqui2");
-
-            Long idProduto = produto.getId();
-            String descricao = produto.getDescricao(); 
-            ItemDoPedido itemDoPedido = new ItemDoPedido(produto, 1);
-            //modeloTabelaItemPedido.setListaItemDoPedido(itemDoPedido);
-//
-//            ItemDoPedido item = new ItemDoPedido(produto, 1);
-//            ItemDoPedidoDao dao;
-//            try {
-//                dao = new ItemDoPedidoDao();
-//                dao.insert(produto, item);
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            } 
+         //adiciona na tabela itensSelecioandos
+        for(ItemDoPedido itempedido:itensPedidos){              
+//            if(!modeloTabelaItemPedido.getItemDoPedido(modeloTabelaItemPedido.getRowCount()).equals(itempedido.getProduto().getId())){
+                
+                modeloTabelaItemPedido.adicionaItemDoPedido(itempedido);
+//            }else{
+//                itempedido.somarItens(itempedido.getQuantidade(), 1);
 //            }
-//            //Atualiza tabela
-//            modeloTabelaItemPedido.fireTableRowsUpdated(linhaClicada, linhaClicada);
-            
         }
+ 
+     
     }//GEN-LAST:event_btnIncluirProdutoActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed

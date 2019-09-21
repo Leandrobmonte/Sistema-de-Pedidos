@@ -45,9 +45,6 @@ class ModeloTabelaItemPedido extends AbstractTableModel{
 
     public boolean isCellEditable(int row, int column) {
         return false;
-        //if(column==0)
-        //    return false;
-        //return true;
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -84,8 +81,7 @@ class ModeloTabelaItemPedido extends AbstractTableModel{
 
     public void adicionaItemDoPedido(ItemDoPedido item) {
         this.lista.add(item);
-        //this.fireTableDataChanged();
-        this.fireTableRowsInserted(lista.size()-1,lista.size()-1);//update JTable
+        this.fireTableRowsInserted(lista.size()-1,lista.size()-1);
     }    
    
     public void setListaItemDoPedido(List<ItemDoPedido> item) {

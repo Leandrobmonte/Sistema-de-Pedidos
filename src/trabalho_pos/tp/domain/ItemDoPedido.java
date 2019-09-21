@@ -17,6 +17,7 @@ public class ItemDoPedido {
         this.produto = produto;
         this.quantidade = quantidade;
     }
+    public ItemDoPedido(){}
     
     
 
@@ -35,8 +36,8 @@ public class ItemDoPedido {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-
     
-    
-    
+    public int somarItens(Integer it1, Integer it2){        
+        return it1 + it2;    
+    }    
 }
