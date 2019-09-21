@@ -7,28 +7,27 @@ package trabalho_pos.tp.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import trabalho_pos.tp.domain.Cliente;
+import trabalho_pos.tp.domain.ItemDoPedido;
 import trabalho_pos.tp.domain.Produto;
 
 /**
  *
  * @author leand
  */
-class ModeloTabelaProduto extends AbstractTableModel{
+class ModeloTabelaItemPedido extends AbstractTableModel{
     
-     private String[] colunas = new String[]{"id","descricao"};
+     private String[] colunas = new String[]{"Produto","Quantidade"};
 
-    private List<Produto> lista = new ArrayList();
+    private List<ItemDoPedido> lista = new ArrayList();
+    private List<Produto> listaProduto = new ArrayList();
 
     
-    public ModeloTabelaProduto(List<Produto> lista){
-        this.lista=lista;
+    public ModeloTabelaItemPedido(List<ItemDoPedido> listaDeItens){
+        this.lista=listaDeItens;
     }
 
-    public ModeloTabelaProduto(){
+    public ModeloTabelaItemPedido(){
     }
 
 
@@ -52,23 +51,23 @@ class ModeloTabelaProduto extends AbstractTableModel{
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Produto customer = lista.get(rowIndex);
+        ItemDoPedido itensDoPedido = lista.get(rowIndex);
         switch (columnIndex) {
-            case 0: return customer.getId();//if column 0 (code)
-            case 1: return customer.getDescricao();//if column 1 (cpf)
-           
+   
+            case 0: return itensDoPedido.getProduto().getDescricao();
+            case 1: return itensDoPedido.getQuantidade();//
             default : return null;
         }
     }
 
     public void setValueAt(Object value, int row, int col) {
-        Produto customer = lista.get(row);
+        ItemDoPedido itemPedido = lista.get(row);
         switch (col) {
             case 0:
-                customer.setId((Long) value); //if column 0 (code)
+                itemPedido.getProduto().setDescricao((String) value); //if column 0 (code)
                 break;
             case 1:
-                 customer.setDescricao((String) value);
+                 itemPedido.setQuantidade((int) value);
                 break;
 
             default:
@@ -76,21 +75,22 @@ class ModeloTabelaProduto extends AbstractTableModel{
         this.fireTableCellUpdated(row, col);
     }
 
-    public boolean removeProduto(Produto produto) {
-        int linha = this.lista.indexOf(produto);
-        boolean result = this.lista.remove(produto);
+    public boolean removeItemDoPedido(ItemDoPedido item) {
+        int linha = this.lista.indexOf(item);
+        boolean result = this.lista.remove(item);
         this.fireTableRowsDeleted(linha,linha);//update JTable
         return result;
     }
 
-    public void adicionaProduto(Produto produto) {
-        this.lista.add(produto);
+    public void adicionaItemDoPedido(ItemDoPedido item) {
+        this.lista.add(item);
         //this.fireTableDataChanged();
         this.fireTableRowsInserted(lista.size()-1,lista.size()-1);//update JTable
-    }
+    }    
+   
+    public void setListaItemDoPedido(List<ItemDoPedido> item) {
 
-    public void setListaProduto(List<Produto> produto) {
-        this.lista = produto;
+        this.lista =  item;
         this.fireTableDataChanged();
     }
 
@@ -102,7 +102,7 @@ class ModeloTabelaProduto extends AbstractTableModel{
         this.fireTableRowsDeleted(0,indice);//update JTable
     }
 
-    public Produto getProduto(int linha){
+    public ItemDoPedido getItemDoPedido(int linha){
         return lista.get(linha);
     }
 

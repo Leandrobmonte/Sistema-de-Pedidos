@@ -31,6 +31,8 @@ public class ClienteDao {
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from cliente");
         try {
             rs = stmtLista.executeQuery();
+                         
+
             List<Cliente> cliente = new ArrayList();
             while (rs.next()) {
                 // criando o objeto Contato
@@ -53,6 +55,25 @@ public class ClienteDao {
         }
 
     }
+     
+    public String buscaClienteByCpf(Cliente cliente) throws SQLException{      
+        
+        ResultSet rs = null;
+        PreparedStatement stmtBusca = this.connection.prepareStatement("select nome from pedidos.cliente WHERE cpf="+cliente.getCpf());
+        try {
+           //stmtBusca.setString(1, cliente.getCpf());  
+             System.out.println("RS"+stmtBusca);
+            rs =stmtBusca.executeQuery(); 
+              String nome= rs.getString("nome");
+             Cliente cliente2 = new Cliente();
+             System.out.println("binga: "+cliente2.getNome());
+            return cliente2.getNome();
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public void insert(Cliente cliente) throws SQLException{
         try {
             // prepared statement para inserção
