@@ -6,11 +6,23 @@
 package trabalho_pos.tp.ui;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import trabalho_pos.tp.dao.ClienteDao;
+import trabalho_pos.tp.dao.ItemDoPedidoDao;
+import trabalho_pos.tp.dao.PedidoDao;
 import trabalho_pos.tp.dao.ProdutoDao;
+import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.ItemDoPedido;
+import trabalho_pos.tp.domain.Pedido;
 import trabalho_pos.tp.domain.Produto;
 
 /**
@@ -21,6 +33,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
 
     private ModeloTabelaProduto modeloTabelaProduto;
     private ModeloTabelaItemPedido modeloTabelaItemPedido;
+   
+
     private int linhaClicada = -1;
     
     
@@ -44,13 +58,13 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        campoCpf = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        cpf = new javax.swing.JTextField();
+        lblNomeCliente = new javax.swing.JLabel();
         btnListarProduto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         produtosDisponiveis = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblItensAdicionados = new javax.swing.JTable();
         btnIncluirItem = new javax.swing.JButton();
         btnExcluirItem = new javax.swing.JButton();
         quantidadeItem = new javax.swing.JTextField();
@@ -74,8 +88,19 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Novo Pedido");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Nome do cliente");
+        cpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfActionPerformed(evt);
+            }
+        });
+        cpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cpfKeyPressed(evt);
+            }
+        });
+
+        lblNomeCliente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblNomeCliente.setText("Cliente:");
 
         btnListarProduto.setText("Listar Produtos");
         btnListarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -87,8 +112,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         produtosDisponiveis.setModel(modeloTabelaProduto);
         jScrollPane1.setViewportView(produtosDisponiveis);
 
-        jTable1.setModel(modeloTabelaItemPedido);
-        jScrollPane2.setViewportView(jTable1);
+        tblItensAdicionados.setModel(modeloTabelaItemPedido);
+        jScrollPane2.setViewportView(tblItensAdicionados);
 
         btnIncluirItem.setText("Incluir");
         btnIncluirItem.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +123,13 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         });
 
         btnExcluirItem.setText("Excluir");
+        btnExcluirItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirItemActionPerformed(evt);
+            }
+        });
+
+        quantidadeItem.setText("1");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Quantidade");
@@ -168,16 +200,16 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(81, 81, 81)
-                                .addComponent(jLabel4))
+                                .addComponent(lblNomeCliente))
                             .addComponent(btnListarProduto))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnSalvarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -202,8 +234,8 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNomeCliente))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -232,7 +264,47 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
-        System.exit(0); 
+       Produto poduto = new Produto();
+       Cliente cliente = new Cliente();
+       List<ItemDoPedido> itensdoPedido = new ArrayList();
+       for (int i = 0; i < modeloTabelaItemPedido.getRowCount(); i++) {
+            itensdoPedido.add(modeloTabelaItemPedido.getItemDoPedido(i));
+        }
+       
+       try {
+            ItemDoPedidoDao daoItem = new ItemDoPedidoDao();          
+            PedidoDao daoPedido = new PedidoDao();
+            ClienteDao dao = new ClienteDao();
+            
+            cliente.setCpf(cpf.getText());
+            cliente = dao.buscaClienteByCpf(cliente);
+            System.out.println("cliente cpf"+cliente.getCpf());
+            System.out.println("cliente nome"+cliente.getNome());
+            System.out.println("cliente sobrenome"+cliente.getSobrenome());
+            System.out.println("cliente id"+cliente.getId());
+
+            System.out.println("cliente CAMPO:"+ cpf.getText());
+            //LocalDateTime formatodata = LocalDateTime.now();            
+            LocalDate formatodata = LocalDate.now();//For reference
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-LLLL-yyyy");
+            String data = formatodata.format(formatter);
+            System.out.println("DATA: "+ data);
+            
+            Pedido pedido = new Pedido(null, data, cliente,itensdoPedido);
+            System.out.println("criando pedido");
+            daoPedido.insert(pedido);
+            System.out.println("pedido salvo");
+            
+            
+            for(ItemDoPedido itempedido : itensdoPedido){                
+                daoItem.insert(pedido);
+            }
+        
+       }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+
+       }
+ 
     }//GEN-LAST:event_btnSalvarPedidoActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -265,9 +337,13 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
         try{
-            ProdutoDao dao = new ProdutoDao();
-            List<Produto> list = dao.getLista();
-            modeloTabelaProduto.setListaProduto(list);
+            if(modeloTabelaItemPedido.getRowCount() == 0){
+                ProdutoDao dao = new ProdutoDao();
+                List<Produto> list = dao.getLista();
+                modeloTabelaProduto.setListaProduto(list);
+            }else{
+                JOptionPane.showMessageDialog(null,"Lista de produtos atualizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
 
@@ -276,20 +352,120 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarProdutoActionPerformed
 
     private void btnIncluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirItemActionPerformed
+        
         int[] linhasSelecionadas = produtosDisponiveis.getSelectedRows();
         List<ItemDoPedido> itensPedidos = new ArrayList();
+        List<ItemDoPedido> itensAdicionados = new ArrayList();
+        List<Produto> itensDisponiveis = new ArrayList();  
+        
         for (int i = 0; i < linhasSelecionadas.length; i++) { 
             String quant = quantidadeItem.getText(); 
             Integer quantidade = Integer.parseInt(quant); 
             Produto produto = modeloTabelaProduto.getProduto(linhasSelecionadas[i]);
-            ItemDoPedido itemva = new ItemDoPedido(produto, quantidade);
-            itensPedidos.add(itemva);
+            ItemDoPedido itemAdd = new ItemDoPedido(produto, quantidade);
+            itensPedidos.add(itemAdd);
         }
-        for(ItemDoPedido it:itensPedidos){
-            modeloTabelaItemPedido.adicionaItemDoPedido(it);
-        }     
+        for(ItemDoPedido itensProduto:itensPedidos){
+          modeloTabelaItemPedido.adicionaItemDoPedido(itensProduto);
+        }
+        
+        //for para pegar objetos da tabela ItensSelecionados
+        for (int i = 0; i < modeloTabelaItemPedido.getRowCount(); i++) {
+            itensAdicionados.add(modeloTabelaItemPedido.getItemDoPedido(i));
+        } 
+        
+        for (int i = 0; i < modeloTabelaProduto.getRowCount(); i++){
+            itensDisponiveis.add(modeloTabelaProduto.getProduto(i));
+        }
+        
+        for (Produto p:itensDisponiveis){
+            for (ItemDoPedido ip:itensAdicionados){
+                if (p.getId() == ip.getProduto().getId()){
+                    modeloTabelaProduto.removeProduto(p);
+                } 
+            }
+        }
+     
+        ////////////////////////////////////////////////
+        
+               
+        
+        
+        
+     
+//
+//           for(ItemDoPedido itempedido : itensPedidos){
+//            for (ItemDoPedido it : itensAdicionados){
+//               if(itempedido.getProduto().getId() == it.getProduto().getId()){
+//                   itempedido.setQuantidade(itempedido.somarItens(itempedido.getQuantidade(), it.getQuantidade()));                   
+//                }
+//            }
+//        }   
                 
     }//GEN-LAST:event_btnIncluirItemActionPerformed
+
+    private void cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfActionPerformed
+                
+    }//GEN-LAST:event_cpfActionPerformed
+
+    private void cpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) { 
+            //JOptionPane.showMessageDialog(null, "Enter Pressionado");
+            Cliente cliente = new Cliente();  
+           
+            try { 
+                cliente.setCpf(cpf.getText());
+                ClienteDao dao = new ClienteDao();
+                cliente = dao.buscaClienteByCpf(cliente);
+                lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaCadastroPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+        } // faz qualquer coisa que você quiser jButton1.doClick(); 
+    }//GEN-LAST:event_cpfKeyPressed
+
+    private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
+        int[] linhasSelecionadas = tblItensAdicionados.getSelectedRows();
+        List<ItemDoPedido> itensPedidos = new ArrayList();
+        List<Produto> itensDisponiveis = new ArrayList();
+        List<Produto> produtosDisponiveis = new ArrayList(); 
+               
+        for (int i = 0; i < linhasSelecionadas.length; i++) {
+            
+            ItemDoPedido itemPedido = modeloTabelaItemPedido.getItemDoPedido(linhasSelecionadas[i]);
+            itensPedidos.add(itemPedido);
+        }
+        for(ItemDoPedido itensRemovidos:itensPedidos){
+            itensDisponiveis.add(itensRemovidos.getProduto());
+            modeloTabelaItemPedido.removeItemDoPedido(itensRemovidos);
+            
+        }
+        
+        //for para pegar objetos da tabela ItensSelecionados
+        for (int i = 0; i < modeloTabelaProduto.getRowCount(); i++) {
+            produtosDisponiveis.add(modeloTabelaProduto.getProduto(i));
+        } 
+  
+        if (!produtosDisponiveis.contains(itensDisponiveis)){
+            for (int i = 0; i < itensDisponiveis.size(); i++) {
+                 modeloTabelaProduto.adicionaProduto(itensDisponiveis.get(i));
+            }
+        }
+//        for (Produto p:itensDisponiveis){
+//            for (Produto pr:produtosDisponiveis){
+//                if (p.getId() != pr.getId()){
+//                    modeloTabelaProduto.adicionaProduto(p);
+//                } 
+//            }
+//        }
+//        
+        
+        
+        
+    }//GEN-LAST:event_btnExcluirItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -332,11 +508,10 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JButton btnListarProduto;
     private javax.swing.JButton btnSalvarPedido;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JTextField campoCpf;
+    private javax.swing.JTextField cpf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -346,8 +521,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JTable produtosDisponiveis;
     private javax.swing.JTextField quantidadeItem;
+    private javax.swing.JTable tblItensAdicionados;
     // End of variables declaration//GEN-END:variables
 }

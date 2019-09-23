@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class ItemDoPedido {
-    
+
     Integer quantidade;
     Produto produto = new Produto();
 
@@ -17,8 +17,6 @@ public class ItemDoPedido {
         this.produto = produto;
         this.quantidade = quantidade;
     }
-    
-    
 
     public Integer getQuantidade() {
         return quantidade;
@@ -34,6 +32,10 @@ public class ItemDoPedido {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+    
+    public Integer getSoma(Integer qtd1, Integer qtd2){
+        return qtd1 + qtd2;
     }
 
     
