@@ -69,6 +69,12 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Descrição do Produto");
 
+        descricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descricaoActionPerformed(evt);
+            }
+        });
+
         cadastrar.setText("Cadastrar");
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,14 +233,19 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
-        String descricao = this.descricao.getText();
-        
-        Produto produto = new Produto( null, descricao);
-        try{
-            ProdutoDao dao = new ProdutoDao();
-            dao.insert(produto);
-        }catch(SQLException ex){
-             JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de produto.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if(!this.descricao.getText().equals("")){
+            String descricao = this.descricao.getText();
+
+            Produto produto = new Produto( null, descricao);
+            try{
+
+                ProdutoDao dao = new ProdutoDao();
+                dao.insert(produto);
+            }catch(SQLException ex){
+                 JOptionPane.showMessageDialog(null,"Erro ao realizar cadastro do produto.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Erro ao realizar cadastro do produto.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_cadastrarActionPerformed
 
@@ -330,6 +341,10 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
        tela.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void descricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descricaoActionPerformed
 
     /**
      * @param args the command line arguments

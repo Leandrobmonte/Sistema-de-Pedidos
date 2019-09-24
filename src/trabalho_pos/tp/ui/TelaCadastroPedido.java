@@ -241,9 +241,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnListarProduto)
                         .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(jLabel5)
@@ -278,33 +278,24 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             
             cliente.setCpf(cpf.getText());
             cliente = dao.buscaClienteByCpf(cliente);
-            System.out.println("cliente cpf"+cliente.getCpf());
-            System.out.println("cliente nome"+cliente.getNome());
-            System.out.println("cliente sobrenome"+cliente.getSobrenome());
-            System.out.println("cliente id"+cliente.getId());
-
-            System.out.println("cliente CAMPO:"+ cpf.getText());
             //LocalDateTime formatodata = LocalDateTime.now();            
             LocalDate formatodata = LocalDate.now();//For reference
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-LLLL-yyyy");
             String data = formatodata.format(formatter);
-            System.out.println("DATA: "+ data);
-            
             Pedido pedido = new Pedido(null, data, cliente,itensdoPedido);
-            System.out.println("criando pedido");
             daoPedido.insert(pedido);
-            System.out.println("pedido salvo");
-            
-            
             for(ItemDoPedido itempedido : itensdoPedido){                
                 daoItem.insert(pedido);
             }
-        
+            JOptionPane.showMessageDialog(null,"Pedido cadastrado com sucesso!!.", "Informação", JOptionPane.PLAIN_MESSAGE);
+            
        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
-
+            JOptionPane.showMessageDialog(null,"Erro ao realizar cadastro de pedido.", "Erro", JOptionPane.ERROR_MESSAGE);
        }
- 
+       
+       TelaInicial telaInicial= new TelaInicial();
+       this.setVisible(false);
+       telaInicial.setVisible(true);
     }//GEN-LAST:event_btnSalvarPedidoActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -336,7 +327,13 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
+          Cliente cliente = new Cliente();
         try{
+              cliente.setCpf(cpf.getText());
+                ClienteDao daoCliente = new ClienteDao();
+                cliente = daoCliente.buscaClienteByCpf(cliente);
+                lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
+           
             if(modeloTabelaItemPedido.getRowCount() == 0){
                 ProdutoDao dao = new ProdutoDao();
                 List<Produto> list = dao.getLista();

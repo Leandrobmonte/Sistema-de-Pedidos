@@ -6,6 +6,15 @@
 package trabalho_pos.tp.ui;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import trabalho_pos.tp.dao.ClienteDao;
+import trabalho_pos.tp.dao.PedidoDao;
+import trabalho_pos.tp.domain.Cliente;
+import trabalho_pos.tp.domain.ItemDoPedido;
+import trabalho_pos.tp.domain.Pedido;
+import trabalho_pos.tp.domain.Produto;
 
 /**
  *
@@ -16,8 +25,14 @@ public class TelaListaPedido extends javax.swing.JFrame {
     /**
      * Creates new form TelaListaPedido
      */
+    
+    ModeloTabelaPedido modeloTabelaPedido;
+    private int linhaClicada = -1;
+
     public TelaListaPedido() {
+        modeloTabelaPedido = new ModeloTabelaPedido();
         initComponents();
+        
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.white);
 
@@ -36,12 +51,14 @@ public class TelaListaPedido extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         campoCpf = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaPedido = new javax.swing.JTable();
         btnSair = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
+        visualizar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         btnClientes = new javax.swing.JMenuItem();
@@ -58,7 +75,13 @@ public class TelaListaPedido extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("CPF");
 
-        jScrollPane1.setViewportView(jTable1);
+        tabelaPedido.setModel(modeloTabelaPedido);
+        tabelaPedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPedidoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaPedido);
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +113,16 @@ public class TelaListaPedido extends javax.swing.JFrame {
                 btnLimparActionPerformed(evt);
             }
         });
+
+        visualizar.setText("Visualizar");
+        visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Listar Pedidos");
 
         jMenu3.setText("Menu");
 
@@ -138,29 +171,37 @@ public class TelaListaPedido extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(48, 48, 48)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(80, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
@@ -170,12 +211,13 @@ public class TelaListaPedido extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(btnLimpar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVoltar)
-                    .addComponent(btnSair))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(btnSair)
+                    .addComponent(visualizar))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -196,7 +238,26 @@ public class TelaListaPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+         try {
+            PedidoDao daoPedido = new PedidoDao();
+            Cliente cliente = new Cliente();
+            ClienteDao daoCliente = new ClienteDao();            
+            cliente.setCpf(campoCpf.getText());
+            if(!campoCpf.getText().equals("")){
+                cliente = daoCliente.buscaClienteByCpf(cliente);             
+                List<Pedido> lista = daoPedido.getLista(cliente);
+                modeloTabelaPedido.setListaPedido(lista);
+            }else{
+                JOptionPane.showMessageDialog(null,"Informe o CPF.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                
+            }
+           
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
@@ -220,6 +281,21 @@ public class TelaListaPedido extends javax.swing.JFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         campoCpf.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void tabelaPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPedidoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaPedidoMouseClicked
+
+    private void visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizarActionPerformed
+    
+        int linhasSelecionadas = tabelaPedido.getSelectedRow();     
+        Pedido pedido = modeloTabelaPedido.getPedido(linhasSelecionadas);
+                   
+        TelaItensdoPedido tela = new TelaItensdoPedido();
+        tela.setVisible(true);
+        this.setVisible(false);
+       
+    }//GEN-LAST:event_visualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,11 +343,13 @@ public class TelaListaPedido extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JMenu sair;
+    private javax.swing.JTable tabelaPedido;
+    private javax.swing.JButton visualizar;
     // End of variables declaration//GEN-END:variables
 }

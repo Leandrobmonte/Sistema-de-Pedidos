@@ -26,6 +26,15 @@ public class ClienteDao {
         this.stmtAdiciona = connection.prepareStatement("insert into cliente (cpf,nome,sobrenome) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
     }
     
+    public List<Long> listarById(Cliente cliente) throws SQLException{
+        List<Cliente> clientes = new ArrayList();
+        clientes = this.getLista();
+        List<Long> clientesIds = new ArrayList();
+        for(Cliente cli : clientes){
+            clientesIds.add(cli.getId());
+        }        
+        return clientesIds;
+    }
      public List<Cliente> getLista() throws SQLException{
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from cliente");

@@ -12,7 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import trabalho_pos.tp.bussines.ValidaCPF;
 import trabalho_pos.tp.dao.ClienteDao;
+import trabalho_pos.tp.dao.PedidoDao;
 import trabalho_pos.tp.domain.Cliente;
 
 /**
@@ -241,16 +243,14 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                                 .addGap(60, 60, 60)
                                                 .addComponent(jLabel4)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                .addComponent(sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(listar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -300,20 +300,43 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_nomeActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+      
         String nome = this.nome.getText();
         String sobrenome = this.sobrenome.getText();
         String cpf = this.cpf.getText();
-       
-        Cliente cliente = new Cliente(null,cpf,nome,sobrenome);
-        
-         try {
-             ClienteDao dao = new ClienteDao();
-             dao.insert(cliente);
-             modeloTabela.adicionaCliente(cliente);
-         } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
-         }
+        boolean verificaCpf = true;
+        if(ValidaCPF.isCPF(cpf) == true){
+            if(this.nome.getText().equals("") ){
+                JOptionPane.showMessageDialog(null,"Campo Nome vazio, por favor preenche-lo para realizar cadastro .", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }else if(this.sobrenome.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"Campo Sobrenome vazio, por favor preenche-lo para realizar cadastro .", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }else if( nome != "" || sobrenome != ""){
+                try {
+                    Cliente cliente = new Cliente(null,cpf,nome,sobrenome);
+                    ClienteDao dao = new ClienteDao();
+                    List<Cliente> clientesCadastrados = dao.getLista();
+                    for(Cliente clienteCpf :  clientesCadastrados){
+                        if(this.cpf.getText().equals(clienteCpf.getCpf()) ){
+                            verificaCpf = false;
+                        }
+                    }
+                    if(verificaCpf == true){
+                        dao.insert(cliente);
+                        modeloTabela.adicionaCliente(cliente);
+                        JOptionPane.showMessageDialog(null,"Usuário cadastrado com sucesso!!", "Informação", JOptionPane.PLAIN_MESSAGE);
+                        this.listarActionPerformed(evt);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"CPF já cadastrado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+                }catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Erro, CPF invalido !!", "Erro", JOptionPane.ERROR_MESSAGE);
+
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
@@ -329,6 +352,8 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
        try {
             ClienteDao dao = new ClienteDao();
+            PedidoDao daoPedido = new PedidoDao();
+            
             int[] linhasSelecionadas = tabela.getSelectedRows();
             List<Cliente> listaExcluir = new ArrayList();
             for (int i = 0; i < linhasSelecionadas.length; i++) {
@@ -338,6 +363,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
             }
             for(Cliente cliente:listaExcluir){
+                
                 modeloTabela.removeCliente(cliente);
             }
 
