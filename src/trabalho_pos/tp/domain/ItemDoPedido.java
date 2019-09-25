@@ -18,6 +18,10 @@ public class ItemDoPedido {
         this.quantidade = quantidade;
     }
 
+    public ItemDoPedido() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getQuantidade() {
         return quantidade;
     }

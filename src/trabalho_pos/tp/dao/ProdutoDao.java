@@ -28,7 +28,25 @@ public class ProdutoDao {
     
         
     }
-    
+      public Produto getProdutobyId(Integer id) throws SQLException{
+          ResultSet rs = null;
+          PreparedStatement stmt = this.connection.prepareStatement("select * from produto where id_produto = "+id);
+          rs = stmt.executeQuery();
+          Produto produto = new Produto();
+           while (rs.next()) {
+
+              int idProduto = rs.getInt("id_produto");
+              String descricao = rs.getString("descricao");
+              System.out.println("pega produto2 "+idProduto+" "+ descricao);
+              long idp = (long) idProduto;
+              produto.setId(idp);
+              produto.setDescricao(descricao);
+           
+           }
+         
+
+          return produto;
+      }
       public List<Produto> getLista() throws SQLException{
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from produto");
@@ -55,9 +73,8 @@ public class ProdutoDao {
         }
 
     }
-    
-    
-    public void insert(Produto produto) {
+
+      public void insert(Produto produto) {
            try {
             // prepared statement para inserção
             //PreparedStatement stmt = connection.prepareStatement(sql);

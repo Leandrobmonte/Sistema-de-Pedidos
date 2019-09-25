@@ -41,9 +41,7 @@ public class PedidoDao {
                 // criando o objeto Pedido
                 long id = rs.getLong("id_pedido");
                 String data= rs.getString("data");
-                //long id_cliente = rs.getLong("id_cliente");               
-                // adicionando o objeto à lista
-               // cliente.setId(id_cliente);
+           
                 pedido.add(new Pedido(id,data,cliente,null));
             }
             
@@ -81,6 +79,21 @@ public class PedidoDao {
             throw new RuntimeException(ex);
         }        
     }
+
+    public void delete(Pedido pedido) throws SQLException {
+         
+        PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from pedido WHERE id_pedido=?;");
+        try {
+            stmtExcluir.setLong(1, pedido.getId());
+            stmtExcluir.executeUpdate();
+        } finally{
+            stmtExcluir.close();
+        }
+        
+        
+    }
+
+    
 
    
     

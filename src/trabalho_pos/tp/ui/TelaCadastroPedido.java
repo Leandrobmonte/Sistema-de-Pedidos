@@ -266,6 +266,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
        Produto poduto = new Produto();
        Cliente cliente = new Cliente();
+       if(!cpf.getText().equals("")){
        List<ItemDoPedido> itensdoPedido = new ArrayList();
        for (int i = 0; i < modeloTabelaItemPedido.getRowCount(); i++) {
             itensdoPedido.add(modeloTabelaItemPedido.getItemDoPedido(i));
@@ -284,9 +285,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             String data = formatodata.format(formatter);
             Pedido pedido = new Pedido(null, data, cliente,itensdoPedido);
             daoPedido.insert(pedido);
-            for(ItemDoPedido itempedido : itensdoPedido){                
-                daoItem.insert(pedido);
-            }
+            //for(ItemDoPedido itempedido : itensdoPedido){                
+            daoItem.insert(pedido);
+            //}
             JOptionPane.showMessageDialog(null,"Pedido cadastrado com sucesso!!.", "Informação", JOptionPane.PLAIN_MESSAGE);
             
        }catch(SQLException ex){
@@ -296,6 +297,9 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
        TelaInicial telaInicial= new TelaInicial();
        this.setVisible(false);
        telaInicial.setVisible(true);
+       }else{
+            JOptionPane.showMessageDialog(null,"Informe CPF para salvar.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSalvarPedidoActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -327,13 +331,16 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
-          Cliente cliente = new Cliente();
+         Cliente cliente = new Cliente();
         try{
               cliente.setCpf(cpf.getText());
                 ClienteDao daoCliente = new ClienteDao();
                 cliente = daoCliente.buscaClienteByCpf(cliente);
-                lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
-           
+                if(!cliente.getNome().equals(null)){
+                    lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
+                }else{
+                    lblNomeCliente.setText("Cliente: ");               
+                }
             if(modeloTabelaItemPedido.getRowCount() == 0){
                 ProdutoDao dao = new ProdutoDao();
                 List<Produto> list = dao.getLista();
