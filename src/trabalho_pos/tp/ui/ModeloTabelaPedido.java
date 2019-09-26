@@ -8,7 +8,6 @@ package trabalho_pos.tp.ui;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Pedido;
 
 /**
@@ -47,9 +46,6 @@ class ModeloTabelaPedido extends AbstractTableModel{
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
-        //if(column==0)
-        //    return false;
-        //return true;
     }
 
     @Override
@@ -57,8 +53,8 @@ class ModeloTabelaPedido extends AbstractTableModel{
         Pedido pedido = lista.get(rowIndex);
         switch (columnIndex) {
             case 0: return pedido.getId();//if column 0 (code)
-            case 1: return pedido.getData();//if column 1 (cpf)
-            case 2: return pedido.getCliente().getId();//if column 2 (name)
+            case 1: return pedido.getData();//if column 1 (data)
+            case 2: return pedido.getCliente().getId();//if column 2 (id_cliente)
             default : return null;
         }
     }

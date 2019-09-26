@@ -7,8 +7,6 @@ package trabalho_pos.tp.ui;
 
 import java.awt.Color;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,16 +14,14 @@ import trabalho_pos.tp.bussines.ValidaCPF;
 import trabalho_pos.tp.dao.ClienteDao;
 import trabalho_pos.tp.dao.PedidoDao;
 import trabalho_pos.tp.domain.Cliente;
+import trabalho_pos.tp.domain.Pedido;
 
 /**
  *
  * @author Kissy de Melo
  */
 public class TelaCadastroCliente extends javax.swing.JFrame {
-
-    /**
-     * Creates new form telaInicialTeste
-     */
+    
     private ModeloTabelaClientes modeloTabela;
     private int linhaClicada = -1;
     
@@ -46,7 +42,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sair = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -72,13 +67,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-
-        sair.setText("Sair");
-        sair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sairActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -219,9 +207,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                     .addGap(18, 18, 18)
                                     .addComponent(atualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(sair, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(1, 1, 1)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,16 +266,12 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(atualizar)
                     .addComponent(excluir)
-                    .addComponent(voltar)
-                    .addComponent(sair))
+                    .addComponent(voltar))
                 .addGap(44, 44, 44))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
-        System.exit(0);    }//GEN-LAST:event_sairActionPerformed
 
     private void sobrenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sobrenomeActionPerformed
         // TODO add your handling code here:
@@ -352,21 +334,21 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
        try {
             ClienteDao dao = new ClienteDao();
+            Cliente cliente = new Cliente();
             PedidoDao daoPedido = new PedidoDao();
+            List<Pedido> pedido = new ArrayList();
+            int linhasSelecionada = tabela.getSelectedRow();
+            cliente = modeloTabela.getCliente(linhasSelecionada);
             
-            int[] linhasSelecionadas = tabela.getSelectedRows();
-            List<Cliente> listaExcluir = new ArrayList();
-            for (int i = 0; i < linhasSelecionadas.length; i++) {
-                Cliente cliente = modeloTabela.getCliente(linhasSelecionadas[i]);
-                dao.delete(cliente);
-                listaExcluir.add(cliente);
-
-            }
-            for(Cliente cliente:listaExcluir){
-                
+            pedido = daoPedido.getLista(cliente);
+            //Verifica Se o cliente tem pedido cadastrado
+            if (!pedido.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Cliente não pode ser excluído, pois possui pedido!","Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }else{
                 modeloTabela.removeCliente(cliente);
-            }
-
+                dao.delete(cliente);
+            }    
+    
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -510,7 +492,6 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JButton listar;
     private javax.swing.JMenuItem menuItemProduto;
     private javax.swing.JTextField nome;
-    private javax.swing.JButton sair;
     private javax.swing.JTextField sobrenome;
     private javax.swing.JTable tabela;
     private javax.swing.JButton voltar;

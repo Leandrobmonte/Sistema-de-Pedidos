@@ -25,28 +25,23 @@ public class ProdutoDao {
     public ProdutoDao() throws SQLException {
         this.connection = ConnectionFactory.getConnection();
         this.stmtAdiciona = connection.prepareStatement("insert into produto (descricao) values (?)", Statement.RETURN_GENERATED_KEYS);
-    
-        
     }
-      public Produto getProdutobyId(Integer id) throws SQLException{
-          ResultSet rs = null;
-          PreparedStatement stmt = this.connection.prepareStatement("select * from produto where id_produto = "+id);
-          rs = stmt.executeQuery();
-          Produto produto = new Produto();
-           while (rs.next()) {
-
-              int idProduto = rs.getInt("id_produto");
-              String descricao = rs.getString("descricao");
-              System.out.println("pega produto2 "+idProduto+" "+ descricao);
-              long idp = (long) idProduto;
-              produto.setId(idp);
-              produto.setDescricao(descricao);
-           
-           }
-         
-
-          return produto;
+    
+    public Produto getProdutobyId(Integer id) throws SQLException{
+        ResultSet rs = null;
+        PreparedStatement stmt = this.connection.prepareStatement("select * from produto where id_produto = "+id);
+        rs = stmt.executeQuery();
+        Produto produto = new Produto();
+        while (rs.next()) {
+           int idProduto = rs.getInt("id_produto");
+           String descricao = rs.getString("descricao");
+           long idp = (long) idProduto;
+           produto.setId(idp);
+           produto.setDescricao(descricao);
+        }
+        return produto;
       }
+    
       public List<Produto> getLista() throws SQLException{
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from produto");
@@ -54,12 +49,9 @@ public class ProdutoDao {
             rs = stmtLista.executeQuery();
             List<Produto> produto = new ArrayList();
             while (rs.next()) {
-                // criando o objeto Contato
-                //Contato contato = new Contato();
+                // criando o objeto Produto
                 Long id = rs.getLong("id_produto");
                 String descricao= rs.getString("descricao");
-   
-                
                 // adicionando o objeto à lista
                 produto.add(new Produto(id,descricao));
             }
@@ -110,14 +102,10 @@ public class ProdutoDao {
         PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from produto WHERE id_produto=?;");
         try {
             stmtExcluir.setLong(1, produto.getId());
-            System.out.println(stmtExcluir.toString());
             stmtExcluir.executeUpdate();
         } finally{
             stmtExcluir.close();
         }
          
     }
-    
-    
-    
 }

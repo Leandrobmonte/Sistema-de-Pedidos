@@ -10,10 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableModel;
-import trabalho_pos.tp.dao.ClienteDao;
 import trabalho_pos.tp.dao.ProdutoDao;
-import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Produto;
 
 /**
@@ -50,7 +47,6 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         tabela_produto = new javax.swing.JTable();
         atualizar = new javax.swing.JButton();
         voltar = new javax.swing.JButton();
-        sair = new javax.swing.JButton();
         limpar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -118,13 +114,6 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
             }
         });
 
-        sair.setText("Sair");
-        sair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sairActionPerformed(evt);
-            }
-        });
-
         limpar.setText("Limpar");
         limpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +153,11 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Sair");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -180,9 +174,7 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(sair, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -222,7 +214,6 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sair)
                     .addComponent(voltar)
                     .addComponent(atualizar)
                     .addComponent(excluir))
@@ -238,9 +229,12 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
 
             Produto produto = new Produto( null, descricao);
             try{
-
                 ProdutoDao dao = new ProdutoDao();
                 dao.insert(produto);
+                JOptionPane.showMessageDialog(null,"Produto cadastrado com sucesso", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                this.listarActionPerformed(evt);
+                this.descricao.setText("");
+                
             }catch(SQLException ex){
                  JOptionPane.showMessageDialog(null,"Erro ao realizar cadastro do produto.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -278,14 +272,10 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_atualizarActionPerformed
 
-    private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
-          System.exit(0);  
-    }//GEN-LAST:event_sairActionPerformed
-
     private void tabela_produtoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabela_produtoMouseClicked
           //Pega a linha clicada
         linhaClicada = tabela_produto.rowAtPoint(evt.getPoint());
-        //Pega o contato da linha clidada
+        //Pega o produto da linha clidada
         Produto produto = modeloTabelaProduto.getProduto(linhaClicada);
         //Seta os dados nos componentes
         descricao.setText(produto.getDescricao());
@@ -346,6 +336,10 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_descricaoActionPerformed
 
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenu2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -399,7 +393,6 @@ public class TelaCadastroProduto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton limpar;
     private javax.swing.JButton listar;
-    private javax.swing.JButton sair;
     private javax.swing.JTable tabela_produto;
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables

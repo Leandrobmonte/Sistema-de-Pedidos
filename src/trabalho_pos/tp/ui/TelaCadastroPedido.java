@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +32,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
 
     private ModeloTabelaProduto modeloTabelaProduto;
     private ModeloTabelaItemPedido modeloTabelaItemPedido;
-   
-
     private int linhaClicada = -1;
-    
     
     public TelaCadastroPedido() {
         modeloTabelaProduto = new ModeloTabelaProduto();
@@ -264,7 +260,6 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
-       Produto poduto = new Produto();
        Cliente cliente = new Cliente();
        if(!cpf.getText().equals("")){
        List<ItemDoPedido> itensdoPedido = new ArrayList();
@@ -279,16 +274,13 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             
             cliente.setCpf(cpf.getText());
             cliente = dao.buscaClienteByCpf(cliente);
-            //LocalDateTime formatodata = LocalDateTime.now();            
             LocalDate formatodata = LocalDate.now();//For reference
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-LLLL-yyyy");
             String data = formatodata.format(formatter);
             Pedido pedido = new Pedido(null, data, cliente,itensdoPedido);
             daoPedido.insert(pedido);
-            //for(ItemDoPedido itempedido : itensdoPedido){                
             daoItem.insert(pedido);
-            //}
-            JOptionPane.showMessageDialog(null,"Pedido cadastrado com sucesso!!.", "Informação", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Pedido cadastrado com sucesso!", "Informação", JOptionPane.PLAIN_MESSAGE);
             
        }catch(SQLException ex){
             JOptionPane.showMessageDialog(null,"Erro ao realizar cadastro de pedido.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -333,14 +325,15 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
     private void btnListarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutoActionPerformed
          Cliente cliente = new Cliente();
         try{
-              cliente.setCpf(cpf.getText());
-                ClienteDao daoCliente = new ClienteDao();
-                cliente = daoCliente.buscaClienteByCpf(cliente);
-                if(!cliente.getNome().equals(null)){
-                    lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
-                }else{
-                    lblNomeCliente.setText("Cliente: ");               
-                }
+            cliente.setCpf(cpf.getText());
+            ClienteDao daoCliente = new ClienteDao();
+            cliente = daoCliente.buscaClienteByCpf(cliente);
+            //verificar se campo CPF está null ao listar pedidos
+            if(!cliente.getNome().equals(null)){
+                lblNomeCliente.setText("Cliente: "+cliente.getNome()+" "+cliente.getSobrenome()); 
+            }else{
+                lblNomeCliente.setText("Cliente: ");               
+            }
             if(modeloTabelaItemPedido.getRowCount() == 0){
                 ProdutoDao dao = new ProdutoDao();
                 List<Produto> list = dao.getLista();
@@ -361,7 +354,7 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
         List<ItemDoPedido> itensPedidos = new ArrayList();
         List<ItemDoPedido> itensAdicionados = new ArrayList();
         List<Produto> itensDisponiveis = new ArrayList();  
-        
+        //aramazenar linhas selecionadas com os itens na tabela produto
         for (int i = 0; i < linhasSelecionadas.length; i++) { 
             String quant = quantidadeItem.getText(); 
             Integer quantidade = Integer.parseInt(quant); 
@@ -369,43 +362,26 @@ public class TelaCadastroPedido extends javax.swing.JFrame {
             ItemDoPedido itemAdd = new ItemDoPedido(produto, quantidade);
             itensPedidos.add(itemAdd);
         }
+        //adionar lista na tabela item do pedido de acordo com seus atributos
         for(ItemDoPedido itensProduto:itensPedidos){
           modeloTabelaItemPedido.adicionaItemDoPedido(itensProduto);
         }
-        
         //for para pegar objetos da tabela ItensSelecionados
         for (int i = 0; i < modeloTabelaItemPedido.getRowCount(); i++) {
             itensAdicionados.add(modeloTabelaItemPedido.getItemDoPedido(i));
         } 
-        
+        //adciona em uma lista os produtos selecionados
         for (int i = 0; i < modeloTabelaProduto.getRowCount(); i++){
             itensDisponiveis.add(modeloTabelaProduto.getProduto(i));
         }
-        
+        //se produto ja contiver na tabela itempedido remove da tabela produto
         for (Produto p:itensDisponiveis){
             for (ItemDoPedido ip:itensAdicionados){
                 if (p.getId() == ip.getProduto().getId()){
                     modeloTabelaProduto.removeProduto(p);
                 } 
             }
-        }
-     
-        ////////////////////////////////////////////////
-        
-               
-        
-        
-        
-     
-//
-//           for(ItemDoPedido itempedido : itensPedidos){
-//            for (ItemDoPedido it : itensAdicionados){
-//               if(itempedido.getProduto().getId() == it.getProduto().getId()){
-//                   itempedido.setQuantidade(itempedido.somarItens(itempedido.getQuantidade(), it.getQuantidade()));                   
-//                }
-//            }
-//        }   
-                
+        }                
     }//GEN-LAST:event_btnIncluirItemActionPerformed
 
     private void cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfActionPerformed

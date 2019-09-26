@@ -5,12 +5,6 @@
  */
 package trabalho_pos;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import trabalho_pos.tp.dao.ConnectionFactory;
 import trabalho_pos.tp.ui.TelaInicial;
 
 /**
@@ -25,18 +19,3 @@ public class application {
     }
     
 }
-
-
-
-
-
-        
-       
-        
-//         try {
-//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false"
-//                   ,"root","1234");
-//            System.out.println("conectado");               
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//        }

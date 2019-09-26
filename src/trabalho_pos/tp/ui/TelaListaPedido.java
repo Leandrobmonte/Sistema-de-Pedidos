@@ -15,11 +15,9 @@ import javax.swing.JOptionPane;
 import trabalho_pos.tp.dao.ClienteDao;
 import trabalho_pos.tp.dao.ItemDoPedidoDao;
 import trabalho_pos.tp.dao.PedidoDao;
-import trabalho_pos.tp.dao.ProdutoDao;
 import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.ItemDoPedido;
 import trabalho_pos.tp.domain.Pedido;
-import trabalho_pos.tp.domain.Produto;
 
 /**
  *
@@ -208,14 +206,14 @@ public class TelaListaPedido extends javax.swing.JFrame {
                         .addComponent(btnListarPedidos)
                         .addGap(18, 18, 18)
                         .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnExcluirItem)
                             .addGap(18, 18, 18)
                             .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(55, 55, 55)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -289,6 +287,10 @@ public class TelaListaPedido extends javax.swing.JFrame {
                     cliente = daoCliente.buscaClienteByCpf(cliente);             
                     List<Pedido> lista = daoPedido.getLista(cliente);
                     modeloTabelaPedido.setListaPedido(lista);
+                    if(modeloTabelaPedido.getRowCount() == 0){
+                        JOptionPane.showMessageDialog(null, "Usuário não possui Pedido", "Aviso", JOptionPane.INFORMATION_MESSAGE);                        
+                    }
+                    
                 }else{
                     JOptionPane.showMessageDialog(null,"Informe o CPF.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 

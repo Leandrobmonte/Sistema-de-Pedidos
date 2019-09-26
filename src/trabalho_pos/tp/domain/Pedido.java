@@ -55,9 +55,6 @@ public class Pedido {
 
     public void setItens(List<ItemDoPedido> itens) {
         this.itens = itens;
-    }    
-    
-    
-    
+    }
     
 }

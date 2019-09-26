@@ -5,8 +5,6 @@
  */
 package trabalho_pos.tp.domain;
 
-
-
 public class Cliente {
     
     private Long id;
@@ -54,11 +52,5 @@ public class Cliente {
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
     }
-
-    public void setId(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
     
 }

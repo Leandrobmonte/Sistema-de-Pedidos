@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Pedido;
 
@@ -31,7 +29,7 @@ public class PedidoDao {
         this.stmtAdiciona = connection.prepareStatement("insert into pedido (data, id_cliente) values (?,?)", Statement.RETURN_GENERATED_KEYS);
     }
     
-     public List<Pedido> getLista(Cliente cliente) throws SQLException {
+    public List<Pedido> getLista(Cliente cliente) throws SQLException {
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from pedido where id_cliente = "+cliente.getId());
         try {
@@ -56,32 +54,23 @@ public class PedidoDao {
     }
 
     public void insert(Pedido pedido) {
-        try {
-            System.out.println("1");
-            System.out.println("data"+pedido.getData());
-            System.out.println("cliente"+pedido.getCliente().getId());
-            stmtAdiciona.setString(1, pedido.getData());          
-            stmtAdiciona.setLong(2, pedido.getCliente().getId());
-              // executa
-             System.out.println("2");
+            try {
+                stmtAdiciona.setString(1, pedido.getData());          
+                stmtAdiciona.setLong(2, pedido.getCliente().getId());
+                  // executa          
+                stmtAdiciona.execute();
+                //Seta o id do pedido
+                ResultSet rs = stmtAdiciona.getGeneratedKeys();
+                
+                rs.next();
+                long i = rs.getLong(1);
+                pedido.setId(i);          
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }        
+        }
 
-              stmtAdiciona.execute();
-                         System.out.println("3");
-
-            //Seta o id do contato
-            ResultSet rs = stmtAdiciona.getGeneratedKeys();
-                         System.out.println("4");
-
-            rs.next();
-            long i = rs.getLong(1);
-            pedido.setId(i);          
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }        
-    }
-
-    public void delete(Pedido pedido) throws SQLException {
-         
+    public void delete(Pedido pedido) throws SQLException {         
         PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from pedido WHERE id_pedido=?;");
         try {
             stmtExcluir.setLong(1, pedido.getId());
@@ -89,12 +78,6 @@ public class PedidoDao {
         } finally{
             stmtExcluir.close();
         }
-        
-        
     }
-
-    
-
-   
-    
+  
 }

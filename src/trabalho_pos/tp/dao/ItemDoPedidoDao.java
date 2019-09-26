@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import trabalho_pos.tp.domain.ItemDoPedido;
 import trabalho_pos.tp.domain.Pedido;
 import trabalho_pos.tp.domain.Produto;
@@ -24,7 +22,7 @@ import trabalho_pos.tp.domain.Produto;
  */
 public class ItemDoPedidoDao {
     
-     private Connection connection;
+    private Connection connection;
     private PreparedStatement stmtAdiciona;
     
     public ItemDoPedidoDao() throws SQLException {
@@ -35,11 +33,9 @@ public class ItemDoPedidoDao {
     public List<ItemDoPedido> getListItensByPedido(Pedido pedido) throws SQLException {
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from item_do_pedido where id_pedido = "+pedido.getId());
-        System.out.println("chega aqui");
         
         try {
             rs = stmtLista.executeQuery();
-
             ProdutoDao daoProduto = new ProdutoDao();
             Produto produto = new Produto();
             List<ItemDoPedido> itensDoPedido = new ArrayList();

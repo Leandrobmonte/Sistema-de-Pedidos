@@ -11,7 +11,7 @@ import trabalho_pos.tp.domain.Cliente;
 
 /**
  *
- * @author Rafael
+ * @author Leandro
  */
 public class ModeloTabelaClientes extends AbstractTableModel{
     private String[] colunas = new String[]{"id","cpf","nome","sobrenome"};

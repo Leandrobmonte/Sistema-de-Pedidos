@@ -6,7 +6,6 @@
 package trabalho_pos.tp.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,6 @@ public class ClienteDao {
     private PreparedStatement stmtAdiciona;
 
     public ClienteDao() throws SQLException {
-        //this.connection = DriverManager.getConnection("jdbc:mysql://localhost/exercicio", "root", "");
         this.connection = ConnectionFactory.getConnection();
         this.stmtAdiciona = connection.prepareStatement("insert into cliente (cpf,nome,sobrenome) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
     }
@@ -44,8 +42,7 @@ public class ClienteDao {
 
             List<Cliente> cliente = new ArrayList();
             while (rs.next()) {
-                // criando o objeto Contato
-                //Contato contato = new Contato();
+                // criando o objeto Cliente
                 long id = rs.getLong("id_cliente");
                 String nome= rs.getString("nome");
                 String sobrenome = rs.getString("sobrenome");
@@ -88,7 +85,7 @@ public class ClienteDao {
           
             // executa
             stmtAdiciona.execute();
-            //Seta o id do contato
+            //Seta o id do cliente
             ResultSet rs = stmtAdiciona.getGeneratedKeys();
             rs.next();
             long i = rs.getLong(1);
@@ -113,9 +110,7 @@ public class ClienteDao {
         }     
     }  
     
-    public void delete(Cliente cliente) throws SQLException{
-        
-        
+    public void delete(Cliente cliente) throws SQLException{        
         PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from cliente WHERE id_cliente=?;");
         try {
             int idCliente;
