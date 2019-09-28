@@ -19,7 +19,12 @@ public class Cliente {
         this.cpf = cpf;
         this.nome = nome;
         this.sobrenome = sobrenome;
-    }    
+    } 
+     public Cliente(String cpf, String nome, String sobrenome) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+    }   
     
     public Long getId() {
         return id;

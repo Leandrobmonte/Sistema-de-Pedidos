@@ -9,10 +9,13 @@ import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import trabalho_pos.tp.bussines.ValidaCPF;
 import trabalho_pos.tp.dao.ClienteDao;
 import trabalho_pos.tp.dao.PedidoDao;
+import trabalho_pos.tp.controller.ClienteController;
 import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Pedido;
 
@@ -52,7 +55,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         listar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         sobrenome = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        btnCadastrarCliente = new javax.swing.JButton();
         excluir = new javax.swing.JButton();
         voltar = new javax.swing.JButton();
         atualizar = new javax.swing.JButton();
@@ -109,10 +112,10 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Cadastrar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnCadastrarCliente.setText("Cadastrar");
+        btnCadastrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnCadastrarClienteActionPerformed(evt);
             }
         });
 
@@ -232,7 +235,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                                                 .addComponent(sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(listar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
@@ -257,7 +260,7 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(btnCadastrarCliente)
                     .addComponent(listar)
                     .addComponent(btnLimpar))
                 .addGap(19, 19, 19)
@@ -281,51 +284,36 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nomeActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      
-        String nome = this.nome.getText();
-        String sobrenome = this.sobrenome.getText();
-        String cpf = this.cpf.getText();
-        boolean verificaCpf = true;
-        if(ValidaCPF.isCPF(cpf) == true){
-            if(this.nome.getText().equals("") ){
-                JOptionPane.showMessageDialog(null,"Campo Nome vazio, por favor preenche-lo para realizar cadastro .", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }else if(this.sobrenome.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Campo Sobrenome vazio, por favor preenche-lo para realizar cadastro .", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }else if( nome != "" || sobrenome != ""){
+    private void btnCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarClienteActionPerformed
+        
+        ClienteController clienteController=new ClienteController();
+        Cliente cliente;
+        cliente = new Cliente(this.cpf.getText(),this.nome.getText(),this.sobrenome.getText());
+        if(clienteController.verificaCpf(cliente) == false){
+            JOptionPane.showMessageDialog(null,"Erro, CPF invalido !!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(clienteController.validaNome(cliente) == true){
+                 JOptionPane.showMessageDialog(null,"Campo Nome vazio, por favor preenche-lo para realizar cadastro .", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }else{
                 try {
-                    Cliente cliente = new Cliente(null,cpf,nome,sobrenome);
-                    ClienteDao dao = new ClienteDao();
-                    List<Cliente> clientesCadastrados = dao.getLista();
-                    for(Cliente clienteCpf :  clientesCadastrados){
-                        if(this.cpf.getText().equals(clienteCpf.getCpf()) ){
-                            verificaCpf = false;
-                        }
-                    }
-                    if(verificaCpf == true){
-                        dao.insert(cliente);
-                        modeloTabela.adicionaCliente(cliente);
-                        JOptionPane.showMessageDialog(null,"Usuário cadastrado com sucesso!!", "Informação", JOptionPane.PLAIN_MESSAGE);
-                        this.listarActionPerformed(evt);
-                    }else{
+                    if(clienteController.adicionarCliente(cliente) == true){
                         JOptionPane.showMessageDialog(null,"CPF já cadastrado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-
+                    }else{
+                        //modeloTabela.adicionaCliente(cliente);
+                        JOptionPane.showMessageDialog(null,"Usuário cadastrado com sucesso!!", "Informação", JOptionPane.PLAIN_MESSAGE);
+                         this.listarActionPerformed(evt);
                     }
-                }catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Erro ao realizar inclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }else{
-            JOptionPane.showMessageDialog(null,"Erro, CPF invalido !!", "Erro", JOptionPane.ERROR_MESSAGE);
-
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnCadastrarClienteActionPerformed
 
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
+        ClienteController clienteController=new ClienteController();        
         try {
-            ClienteDao dao = new ClienteDao();
-            List<Cliente> lista = dao.getLista();
-            modeloTabela.setListaCliente(lista);
+            modeloTabela.setListaCliente(clienteController.listaClientes());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -333,22 +321,17 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
        try {
-            ClienteDao dao = new ClienteDao();
+            ClienteController clienteController = new ClienteController();        
             Cliente cliente = new Cliente();
-            PedidoDao daoPedido = new PedidoDao();
-            List<Pedido> pedido = new ArrayList();
             int linhasSelecionada = tabela.getSelectedRow();
-            cliente = modeloTabela.getCliente(linhasSelecionada);
-            
-            pedido = daoPedido.getLista(cliente);
+            cliente = modeloTabela.getCliente(linhasSelecionada); 
             //Verifica Se o cliente tem pedido cadastrado
-            if (!pedido.isEmpty()){
+            if (!clienteController.excluirCliente(cliente) == true){
                 JOptionPane.showMessageDialog(null, "Cliente não pode ser excluído, pois possui pedido!","Aviso", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 modeloTabela.removeCliente(cliente);
-                dao.delete(cliente);
-            }    
-    
+                clienteController.excluirCliente(cliente);
+            }  
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -364,15 +347,13 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
       if(linhaClicada!=-1){
+            ClienteController clienteController = new ClienteController();
             Cliente cliente = modeloTabela.getCliente(linhaClicada);
-
             cliente.setNome(nome.getText());
             cliente.setSobrenome(sobrenome.getText());
             cliente.setCpf(cpf.getText());
-            ClienteDao dao = null;
             try {
-                dao = new ClienteDao();
-                dao.atualiza(cliente);
+                clienteController.alterarCliente(cliente);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -432,52 +413,52 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastroCliente().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new TelaCadastroCliente().setVisible(true);
+//            }
+//        });
+//    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atualizar;
+    private javax.swing.JButton btnCadastrarCliente;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JTextField cpf;
     private javax.swing.JButton excluir;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
