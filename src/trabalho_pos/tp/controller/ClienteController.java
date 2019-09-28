@@ -77,10 +77,7 @@ public class ClienteController {
         }else{
            dao.delete(cliente); 
         }
-        
-        return verficaPedido;
-        
-        
+        return verficaPedido;       
     }
     
     
