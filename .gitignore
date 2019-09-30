@@ -1,1 +1,13 @@
 /dist/
+/build/*.properties
+/build/classes/*.netbeans_automatic_build
+/build/classes/*.netbeans_update_resources
+/build/classes/trabalho_pos/*.class
+/build/classes/trabalho_pos/tp/bussines/*.class
+/build/classes/trabalho_pos/tp/controller/*.class
+/build/classes/trabalho_pos/tp/dao/*.class
+/build/classes/trabalho_pos/tp/domain/*.class
+/build/classes/trabalho_pos/tp/imagens/*.png
+/build/classes/trabalho_pos/tp/ui/*.gitignore
+/build/classes/trabalho_pos/tp/ui/*.class
+/build/classes/trabalho_pos/tp/ui/*.form
