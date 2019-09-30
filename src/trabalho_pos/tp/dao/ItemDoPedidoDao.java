@@ -10,7 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import trabalho_pos.tp.domain.ItemDoPedido;
+import trabalho_pos.tp.domain.Pedido;
 import trabalho_pos.tp.domain.Produto;
 
 /**
@@ -19,35 +22,67 @@ import trabalho_pos.tp.domain.Produto;
  */
 public class ItemDoPedidoDao {
     
-     private Connection connection;
+    private Connection connection;
     private PreparedStatement stmtAdiciona;
     
     public ItemDoPedidoDao() throws SQLException {
         this.connection = ConnectionFactory.getConnection();
-        this.stmtAdiciona = connection.prepareStatement("insert into item_do_pedido (id_produto, qtdade) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+        this.stmtAdiciona = connection.prepareStatement("insert into item_do_pedido (id_pedido,id_produto, qtdade) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
     }
     
-    
-    
-    public void insert(ItemDoPedido item) {
-          try {
-            // prepared statement para inserção
-            //PreparedStatement stmt = connection.prepareStatement(sql);
-            // seta os valores
-            stmtAdiciona.setLong(1, item.getProduto().getId());
-            stmtAdiciona.setLong(2, item.getQuantidade());
-          
-            // executa
-            stmtAdiciona.execute();
-            //Seta o id do contato
-            ResultSet rs = stmtAdiciona.getGeneratedKeys();
-            rs.next();
-            Integer i = rs.getInt(1);
-            item.setId(i);
+    public List<ItemDoPedido> getListItensByPedido(Pedido pedido) throws SQLException {
+        ResultSet rs = null;
+        PreparedStatement stmtLista = this.connection.prepareStatement("select * from item_do_pedido where id_pedido = "+pedido.getId());
+        
+        try {
+            rs = stmtLista.executeQuery();
+            ProdutoDao daoProduto = new ProdutoDao();
+            Produto produto = new Produto();
+            List<ItemDoPedido> itensDoPedido = new ArrayList();
+            //List<>
+            while (rs.next()) {
+                // criando o objeto Pedido
+                Integer id = rs.getInt("id_produto");
+                Integer qtdade= rs.getInt("qtdade");
+                
+                produto = daoProduto.getProdutobyId(id);
+                System.out.println("retorna aqui");
+                itensDoPedido.add(new ItemDoPedido(produto,qtdade));
+            }
             
+            return itensDoPedido;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } 
+        } finally{
+            rs.close();
+            stmtLista.close();
+        }
+    }
+    
+    public void insert(Pedido pedido) {        
+        try {
+            for(ItemDoPedido itensDoPedido : pedido.getItens()){
+              stmtAdiciona.setLong(1, pedido.getId());
+              stmtAdiciona.setLong(2, itensDoPedido.getProduto().getId());
+              stmtAdiciona.setLong(3, itensDoPedido.getQuantidade());
+              // executa
+              stmtAdiciona.execute();
+            }
+            
+         } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+         }
+    }
+    public void delete(ItemDoPedido itemDoPedido, Pedido pedido) throws SQLException {
+        PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from item_do_pedido WHERE id_produto=? and id_pedido=?;");
+        try {
+            stmtExcluir.setLong(1, itemDoPedido.getProduto().getId());
+            stmtExcluir.setLong(2, pedido.getId());
+            stmtExcluir.executeUpdate();
+        } finally{
+            stmtExcluir.close();
+        }
     }
     
 }

@@ -7,10 +7,7 @@ package trabalho_pos.tp.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import trabalho_pos.tp.domain.Cliente;
 import trabalho_pos.tp.domain.Produto;
 
 /**
@@ -20,7 +17,6 @@ import trabalho_pos.tp.domain.Produto;
 class ModeloTabelaProduto extends AbstractTableModel{
     
      private String[] colunas = new String[]{"id","descricao"};
-
     private List<Produto> lista = new ArrayList();
 
     
@@ -52,23 +48,23 @@ class ModeloTabelaProduto extends AbstractTableModel{
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Produto customer = lista.get(rowIndex);
+        Produto produto = lista.get(rowIndex);
         switch (columnIndex) {
-            case 0: return customer.getId();//if column 0 (code)
-            case 1: return customer.getDescricao();//if column 1 (cpf)
+            case 0: return produto.getId();//if column 0 (code)
+            case 1: return produto.getDescricao();//if column 1 (descricao)
            
             default : return null;
         }
     }
 
     public void setValueAt(Object value, int row, int col) {
-        Produto customer = lista.get(row);
+        Produto produto = lista.get(row);
         switch (col) {
             case 0:
-                customer.setId((Long) value); //if column 0 (code)
+                produto.setId((Long) value); //if column 0 (code)
                 break;
             case 1:
-                 customer.setDescricao((String) value);
+                 produto.setDescricao((String) value);
                 break;
 
             default:

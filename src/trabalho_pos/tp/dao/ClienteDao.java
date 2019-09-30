@@ -6,7 +6,6 @@
 package trabalho_pos.tp.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,11 +20,19 @@ public class ClienteDao {
     private PreparedStatement stmtAdiciona;
 
     public ClienteDao() throws SQLException {
-        //this.connection = DriverManager.getConnection("jdbc:mysql://localhost/exercicio", "root", "");
         this.connection = ConnectionFactory.getConnection();
         this.stmtAdiciona = connection.prepareStatement("insert into cliente (cpf,nome,sobrenome) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
     }
     
+    public List<Long> listarById(Cliente cliente) throws SQLException{
+        List<Cliente> clientes = new ArrayList();
+        clientes = this.getLista();
+        List<Long> clientesIds = new ArrayList();
+        for(Cliente cli : clientes){
+            clientesIds.add(cli.getId());
+        }        
+        return clientesIds;
+    }
      public List<Cliente> getLista() throws SQLException{
         ResultSet rs = null;
         PreparedStatement stmtLista = this.connection.prepareStatement("select * from cliente");
@@ -35,8 +42,7 @@ public class ClienteDao {
 
             List<Cliente> cliente = new ArrayList();
             while (rs.next()) {
-                // criando o objeto Contato
-                //Contato contato = new Contato();
+                // criando o objeto Cliente
                 long id = rs.getLong("id_cliente");
                 String nome= rs.getString("nome");
                 String sobrenome = rs.getString("sobrenome");
@@ -56,7 +62,10 @@ public class ClienteDao {
 
     }
      
-    public String buscaClienteByCpf(Cliente cliente) throws SQLException{      
+
+
+    public Cliente buscaClienteByCpf(Cliente cliente) throws SQLException{      
+
         List<Cliente> clientes = new ArrayList();
         clientes = this.getLista();
         
@@ -64,26 +73,13 @@ public class ClienteDao {
             if(cliente.getCpf().equals(cli.getCpf())){
                 cliente = cli;
             }
+
         }
         
-        return cliente.getNome();
-//        ResultSet rs = null;
-//        PreparedStatement stmtBusca = this.connection.prepareStatement("select nome from pedidos.cliente WHERE cpf="+cliente.getCpf());
-//        try {
-//           //stmtBusca.setString(1, cliente.getCpf());  
-//            System.out.println("RS"+stmtBusca);
-//            rs =stmtBusca.executeQuery(); 
-//            String nome= rs.getString("nome");
-//            Cliente cliente2 = new Cliente();
-//            System.out.println("binga: "+cliente2.getNome());
-//            return cliente2.getNome();
-//            
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        return cliente;
     }
     
-    public void insert(Cliente cliente) throws SQLException{
+    public void insert(Cliente cliente){
         try {
             // prepared statement para inserção
             //PreparedStatement stmt = connection.prepareStatement(sql);
@@ -94,7 +90,7 @@ public class ClienteDao {
           
             // executa
             stmtAdiciona.execute();
-            //Seta o id do contato
+            //Seta o id do cliente
             ResultSet rs = stmtAdiciona.getGeneratedKeys();
             rs.next();
             long i = rs.getLong(1);
@@ -119,9 +115,7 @@ public class ClienteDao {
         }     
     }  
     
-    public void delete(Cliente cliente) throws SQLException{
-        
-        
+    public void delete(Cliente cliente) throws SQLException{        
         PreparedStatement stmtExcluir = this.connection.prepareStatement("delete from cliente WHERE id_cliente=?;");
         try {
             int idCliente;

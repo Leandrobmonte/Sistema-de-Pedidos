@@ -7,25 +7,14 @@ package trabalho_pos.tp.domain;
 
 import java.util.List;
 
-
 public class ItemDoPedido {
-    int id;
     Integer quantidade;
     Produto produto = new Produto();
 
     public ItemDoPedido(Produto produto, Integer quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
+    }    
     public Integer getQuantidade() {
         return quantidade;
     }
@@ -41,8 +30,9 @@ public class ItemDoPedido {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-
     
-    
+    public Integer getSoma(Integer qtd1, Integer qtd2){
+        return qtd1 + qtd2;
+    }
     
 }

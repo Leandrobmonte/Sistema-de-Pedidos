@@ -8,8 +8,6 @@ package trabalho_pos.tp.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +21,8 @@ public class ConnectionFactory {
      */
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false","root","1234");//"rrw@and14"
+            return DriverManager.getConnection("jdbc:mysql://localhost/pedidos?useTimezone=true&serverTimezone=UTC&useSSL=false","root","1234");
+                   
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

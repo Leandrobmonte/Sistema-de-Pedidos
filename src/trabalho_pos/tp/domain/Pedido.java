@@ -10,24 +10,26 @@ import java.util.List;
 
 public class Pedido {
     
-    private int id;
+    private Long id;
     private String data; 
     Cliente cliente =  new Cliente();
     List<ItemDoPedido> itens = new ArrayList<ItemDoPedido>();
     
     public Pedido(){}
     
-    public Pedido(int id, String data, Cliente cliente, List<ItemDoPedido> itens) {
+    public Pedido(Long id, String data, Cliente cliente, List<ItemDoPedido> itens) {
         this.id = id;
         this.data = data;
+        this.cliente = cliente;
+        this.itens = itens;
     } 
 
   
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,9 +55,6 @@ public class Pedido {
 
     public void setItens(List<ItemDoPedido> itens) {
         this.itens = itens;
-    }    
-    
-    
-    
+    }
     
 }

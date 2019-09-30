@@ -5,6 +5,20 @@
  */
 package trabalho_pos.tp.ui;
 
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import trabalho_pos.tp.dao.ClienteDao;
+import trabalho_pos.tp.dao.ItemDoPedidoDao;
+import trabalho_pos.tp.dao.PedidoDao;
+import trabalho_pos.tp.domain.Cliente;
+import trabalho_pos.tp.domain.ItemDoPedido;
+import trabalho_pos.tp.domain.Pedido;
+
 /**
  *
  * @author Kissy de Melo
@@ -14,10 +28,28 @@ public class TelaListaPedido extends javax.swing.JFrame {
     /**
      * Creates new form TelaListaPedido
      */
+    
+    ModeloTabelaPedido modeloTabelaPedido;
+    private ModeloTabelaItemPedido modeloTabelaItemPedido;
+    private int linhaClicada = -1;
+    List<ItemDoPedido> itensDopedido = new ArrayList();
+
     public TelaListaPedido() {
+        
+        modeloTabelaPedido = new ModeloTabelaPedido();
+        modeloTabelaItemPedido = new ModeloTabelaItemPedido();
         initComponents();
         this.setLocationRelativeTo(null);
+        this.getContentPane().setBackground(Color.white);
 
+    }
+
+    public List<ItemDoPedido> getItensDopedido() {
+        return itensDopedido;
+    }
+
+    public void setItensDopedido(List<ItemDoPedido> itensDopedido) {
+        this.itensDopedido = itensDopedido;
     }
 
     /**
@@ -31,13 +63,18 @@ public class TelaListaPedido extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        campoCpf = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        btnSair = new javax.swing.JButton();
+        tabelaPedido = new javax.swing.JTable();
         btnVoltar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnListarPedidos = new javax.swing.JButton();
+        lblNomeCliente = new javax.swing.JLabel();
+        btnLimpar = new javax.swing.JButton();
+        visualizar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblItensDoPedido = new javax.swing.JTable();
+        btnExcluirItem = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         btnClientes = new javax.swing.JMenuItem();
@@ -49,19 +86,24 @@ public class TelaListaPedido extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel1.setText("Listar Pedidos");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho_pos/tp/imagens/TituloFinal-1.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("CPF");
 
-        jScrollPane1.setViewportView(jTable1);
-
-        btnSair.setText("Sair");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
+        campoCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
+                campoCpfActionPerformed(evt);
             }
         });
+
+        tabelaPedido.setModel(modeloTabelaPedido);
+        tabelaPedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPedidoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaPedido);
 
         btnVoltar.setText("Voltar");
         btnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -70,15 +112,41 @@ public class TelaListaPedido extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Listar Pedidos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnListarPedidos.setText("Listar Pedidos");
+        btnListarPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnListarPedidosActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Itens do Pedido");
+        lblNomeCliente.setText("Cliente: ");
+
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+
+        visualizar.setText("Visualizar");
+        visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Listar Pedidos");
+
+        tblItensDoPedido.setModel(modeloTabelaItemPedido);
+        jScrollPane2.setViewportView(tblItensDoPedido);
+
+        btnExcluirItem.setText("Excluir Item");
+        btnExcluirItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirItemActionPerformed(evt);
+            }
+        });
 
         jMenu3.setText("Menu");
 
@@ -123,51 +191,65 @@ public class TelaListaPedido extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(59, 59, 59)
+                        .addComponent(lblNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnListarPedidos)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
+                            .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnExcluirItem)
                             .addGap(18, 18, 18)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(43, 43, 43)
-                            .addComponent(jButton1))
-                        .addComponent(jLabel1)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                            .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(55, 55, 55)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(90, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(25, 25, 25)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSair)
-                    .addComponent(btnVoltar))
-                .addContainerGap(50, Short.MAX_VALUE))
+                    .addComponent(campoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblNomeCliente))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnListarPedidos)
+                    .addComponent(btnLimpar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(visualizar)
+                            .addComponent(btnVoltar)
+                            .addComponent(btnExcluirItem)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnSairActionPerformed
 
     private void sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sairMouseClicked
         System.exit(0);
@@ -179,9 +261,51 @@ public class TelaListaPedido extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnVoltarMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnListarPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarPedidosActionPerformed
+        Cliente cliente1 = new Cliente();
+        boolean verificaCpf = true;
+
+        try {
+            ClienteDao daocliente2 = new ClienteDao();
+            List<Cliente> clientesCadastrados = daocliente2.getLista();
+            for(Cliente clienteCpf :  clientesCadastrados){
+                if(this.campoCpf.getText().equals(clienteCpf.getCpf()) ){
+                    verificaCpf = false;
+                }
+            }
+            if(verificaCpf == false){
+                cliente1.setCpf(campoCpf.getText());
+                ClienteDao daoCliente1 = new ClienteDao();
+                cliente1 = daoCliente1.buscaClienteByCpf(cliente1);
+                lblNomeCliente.setText("Cliente: "+cliente1.getNome()+" "+cliente1.getSobrenome()); 
+               
+                PedidoDao daoPedido = new PedidoDao();                
+                Cliente cliente = new Cliente();
+                ClienteDao daoCliente = new ClienteDao();            
+                cliente.setCpf(campoCpf.getText());
+                if(!campoCpf.getText().equals("")){
+                    cliente = daoCliente.buscaClienteByCpf(cliente);             
+                    List<Pedido> lista = daoPedido.getLista(cliente);
+                    modeloTabelaPedido.setListaPedido(lista);
+                    if(modeloTabelaPedido.getRowCount() == 0){
+                        JOptionPane.showMessageDialog(null, "Usuário não possui Pedido", "Aviso", JOptionPane.INFORMATION_MESSAGE);                        
+                    }
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null,"Informe o CPF.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+           
+            }else{
+                JOptionPane.showMessageDialog(null,"CPF não cadastrado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnListarPedidosActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
        TelaCadastroCliente tela = new TelaCadastroCliente();
@@ -200,6 +324,84 @@ public class TelaListaPedido extends javax.swing.JFrame {
        tela.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_btnPedidosActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        campoCpf.setText("");
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void tabelaPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPedidoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaPedidoMouseClicked
+
+    private void visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizarActionPerformed
+        int linhasSelecionadas = tabelaPedido.getSelectedRow();     
+        Pedido pedido = modeloTabelaPedido.getPedido(linhasSelecionadas);
+        
+        //levar para outro lugar
+        List<ItemDoPedido> itens = new ArrayList();
+        List<ItemDoPedido> itensDoP = new ArrayList();
+
+        
+        try {
+            ItemDoPedidoDao daoItensDoPedido = new ItemDoPedidoDao();
+            itens = daoItensDoPedido.getListItensByPedido(pedido);
+            System.out.println("chegando aqui pelo menos");
+
+            this.setItensDopedido(itens);
+            for (int i = 0; i < this.getItensDopedido().size(); i++) {
+                System.out.println("cada pedido"+ this.getItensDopedido().get(i).getProduto().getId());                
+            }
+            
+            modeloTabelaItemPedido.setListaItemDoPedido(itens); 
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaListaPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                   
+       
+        
+       
+       
+    }//GEN-LAST:event_visualizarActionPerformed
+
+    private void btnExcluirItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirItemActionPerformed
+        try {
+            ItemDoPedidoDao daoItemDoPedido = new ItemDoPedidoDao();
+            Pedido pedido = new Pedido();
+            PedidoDao daoPedido = new PedidoDao();
+            
+            int[] linhasSelecionadas = tblItensDoPedido.getSelectedRows();
+            int linhaselecionadapedido = tabelaPedido.getSelectedRow();
+            List<ItemDoPedido> listaExcluir = new ArrayList();
+            pedido = modeloTabelaPedido.getPedido(linhaselecionadapedido);
+            for (int i = 0; i < linhasSelecionadas.length; i++) {
+                ItemDoPedido itemDoPedido = modeloTabelaItemPedido.getItemDoPedido(linhasSelecionadas[i]);
+                daoItemDoPedido.delete(itemDoPedido, pedido);
+                listaExcluir.add(itemDoPedido);
+
+            }
+            for(ItemDoPedido itensExcluir:listaExcluir){                
+                modeloTabelaItemPedido.removeItemDoPedido(itensExcluir);
+            }
+            if(modeloTabelaItemPedido.getRowCount() == 0){
+                daoPedido.delete(pedido);
+                this.btnListarPedidosActionPerformed(evt);                
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnExcluirItemActionPerformed
+
+    private void campoCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCpfActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_campoCpfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,19 +440,24 @@ public class TelaListaPedido extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem btnClientes;
+    private javax.swing.JButton btnExcluirItem;
+    private javax.swing.JButton btnLimpar;
+    private javax.swing.JButton btnListarPedidos;
     private javax.swing.JMenuItem btnPedidos;
     private javax.swing.JMenuItem btnProdutos;
-    private javax.swing.JButton btnSair;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField campoCpf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JMenu sair;
+    private javax.swing.JTable tabelaPedido;
+    private javax.swing.JTable tblItensDoPedido;
+    private javax.swing.JButton visualizar;
     // End of variables declaration//GEN-END:variables
 }
